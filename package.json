@@ -1,0 +1,28 @@
+{
+  "name": "correlation-attendance",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrY30/correlation-attendance.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MrY30/correlation-attendance/issues"
+  },
+  "homepage": "https://github.com/MrY30/correlation-attendance#readme",
+  "description": "",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.56.1",
+    "dotenv": "^17.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
