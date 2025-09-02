@@ -4,12 +4,13 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Quiz Master</title>
+	<title>Correlation Attendance</title>
 	
 	<!-- CSS FILES -->
     <link rel="stylesheet" href="../css/layout.css">
-	<link rel="stylesheet" href="/styles/add-quiz-modal.css">
-	<link rel="stylesheet" href="/styles/start-quiz-modal.css">
+	<link rel="stylesheet" href="../css/main-content.css">
+	<link rel="stylesheet" href="../css/main-table-area.css">
+	<link rel="stylesheet" href="../css/main-session.css">
 	<link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 
 	<!-- FONTS -->
@@ -32,18 +33,256 @@
 	<!-- MAIN SECTION -->
 	<section class="main" id="main">
         <div class="side-bar">
-            side bar
+            
         </div>
         <div class="main-content">
-            <div class="main-register">
-                <div>searchbox</div>
-                <div></div>
-            </div>
-            <div class="main-session">
+			<div class="main-session">
+				<div class="session-container">
+					<div class="session-grid">
+						<div class="session-card">
+							<div class="session-card-header">
+								<h3>Mathematics Quiz</h3>
+								<span class="session-id">ID: SESS-001</span>
+							</div>
+							<div class="session-card-body">
+								<div class="session-info">
+									<i class='bx bx-calendar'></i>
+									<span>Published: Dec 15, 2024 09:00 AM</span>
+								</div>
+								<div class="session-info">
+									<i class='bx bx-time-five'></i>
+									<span>Closes: Dec 20, 2024 11:59 PM</span>
+								</div>
+							</div>
+							<div class="session-card-footer">
+								<span class="session-status status-active">Active</span>
+								<div class="session-actions">
+									<i class='bx bx-edit-alt'></i>
+									<i class='bx bx-trash'></i>
+								</div>
+							</div>
+						</div>
 
+						<div class="session-card">
+							<div class="session-card-header">
+								<h3>Science Laboratory</h3>
+								<span class="session-id">ID: SESS-002</span>
+							</div>
+							<div class="session-card-body">
+								<div class="session-info">
+									<i class='bx bx-calendar'></i>
+									<span>Published: Dec 10, 2024 08:00 AM</span>
+								</div>
+								<div class="session-info">
+									<i class='bx bx-time-five'></i>
+									<span>Closes: Dec 12, 2024 05:00 PM</span>
+								</div>
+							</div>
+							<div class="session-card-footer">
+								<span class="session-status status-closed">Closed</span>
+								<div class="session-actions">
+									<i class='bx bx-edit-alt'></i>
+									<i class='bx bx-trash'></i>
+								</div>
+							</div>
+						</div>
+
+						<div class="add-session-card" id="add-session-btn">
+							<div class="add-session-content">
+								<i class='bx bx-plus'></i>
+								<h3>Add New Session</h3>
+								<p>Click to create a new session</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Popup Modal -->
+				<div class="popup-overlay hidden" id="popup-overlay">
+					<div class="popup-modal">
+						<div class="popup-header">
+							<h2>Add New Session</h2>
+							<i class='bx bx-x popup-close' id="popup-close"></i>
+						</div>
+						<div class="popup-body">
+							<form class="session-form">
+								<div class="form-group">
+									<label for="session-name">Session Name</label>
+									<input type="text" id="session-name" class="form-input" placeholder="Enter session name" required>
+								</div>
+								<div class="form-group">
+									<label for="session-id">Session ID</label>
+									<input type="text" id="session-id" class="form-input" placeholder="Enter session ID" required>
+								</div>
+								<div class="form-row">
+									<div class="form-group">
+										<label for="publish-date">Publish Date</label>
+										<input type="date" id="publish-date" class="form-input" required>
+									</div>
+									<div class="form-group">
+										<label for="publish-time">Publish Time</label>
+										<input type="time" id="publish-time" class="form-input" required>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group">
+										<label for="close-date">Close Date</label>
+										<input type="date" id="close-date" class="form-input" required>
+									</div>
+									<div class="form-group">
+										<label for="close-time">Close Time</label>
+										<input type="time" id="close-time" class="form-input" required>
+									</div>
+								</div>
+								<div class="form-actions">
+									<button type="button" class="btn-cancel" id="cancel-btn">Cancel</button>
+									<button type="submit" class="btn-add" id="add-btn">Add Session</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
             </div>
+			<div class="main-register hidden">
+				<div class="main-search-area">
+					<div class="search-bar">
+						<i class='bx bx-search search-icon'></i>
+						<input type="text" class="search-input" placeholder="Search for Name or School ID...">
+					</div>
+				</div>
+				<div class="main-table-area">
+					<div class="main-table">
+						<div class="table-header">
+							<div class="table-cell">Name</div>
+							<div class="table-cell">School ID</div>
+							<div class="table-cell">Section</div>
+							<div class="table-cell">Status</div>
+						</div>
+						<div class="table-body">
+							<div class="table-row">
+								<div class="table-cell">John Doe</div>
+								<div class="table-cell">2024-12345</div>
+								<div class="table-cell">A1</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Maria Santos</div>
+								<div class="table-cell">2024-12346</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-absent">Absent</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Robert Johnson</div>
+								<div class="table-cell">2024-12347</div>
+								<div class="table-cell">A1</div>
+								<div class="table-cell"><span class="status-badge status-late">Late</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Sarah Wilson</div>
+								<div class="table-cell">2024-12348</div>
+								<div class="table-cell">C3</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Michael Brown</div>
+								<div class="table-cell">2024-12349</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-absent">Absent</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Lisa Garcia</div>
+								<div class="table-cell">2024-12350</div>
+								<div class="table-cell">A1</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">David Lee</div>
+								<div class="table-cell">2024-12351</div>
+								<div class="table-cell">C3</div>
+								<div class="table-cell"><span class="status-badge status-late">Late</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Emma Taylor</div>
+								<div class="table-cell">2024-12352</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Emma Taylor</div>
+								<div class="table-cell">2024-12352</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Emma Taylor</div>
+								<div class="table-cell">2024-12352</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Emma Taylor</div>
+								<div class="table-cell">2024-12352</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Emma Taylor</div>
+								<div class="table-cell">2024-12352</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Emma Taylor</div>
+								<div class="table-cell">2024-12352</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Emma Taylor</div>
+								<div class="table-cell">2024-12352</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Emma Taylor</div>
+								<div class="table-cell">2024-12352</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Emma Taylor</div>
+								<div class="table-cell">2024-12352</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Emma Taylor</div>
+								<div class="table-cell">2024-12352</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Emma Taylor</div>
+								<div class="table-cell">2024-12352</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">Emma Taylor</div>
+								<div class="table-cell">2024-12352</div>
+								<div class="table-cell">B2</div>
+								<div class="table-cell"><span class="status-badge status-present">Present</span></div>
+							</div>
+						</div>
+					<div class="main-table-empty">
+						No data available
+					</div>
+				</div>
+			</div>
+            
         </div>
 	</section>
-	<script type="text/javascript" src="/js/toggle.js"></script>
+	<script type="text/javascript" src="../js/toggle.js"></script>
+	<script type="text/javascript" src="../js/edit.js"></script>
 </body>
 </html>
