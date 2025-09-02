@@ -7,3 +7,24 @@ darkModeButton.addEventListener('click', ()=>{
     darkModeButton.classList.toggle('bxs-moon');
     darkModeButton.classList.toggle('bxs-sun-dim');
 });
+
+// TOGGLE MAIN CONTENT
+const registerBtn = document.getElementById('register-btn');
+const sessionBtn = document.getElementById('session-btn');
+
+const mainRegister = document.querySelector('.main-register');
+const mainSessions = document.querySelector('.main-session');
+
+registerBtn.addEventListener('click', ()=>{
+    mainRegister.classList.remove('hidden');
+    mainSessions.classList.add('hidden');
+    registerBtn.classList.add('selected');
+    sessionBtn.classList.remove('selected');
+});
+
+sessionBtn.addEventListener('click', ()=>{
+    mainSessions.classList.remove('hidden');
+    mainRegister.classList.add('hidden');
+    registerBtn.classList.remove('selected');
+    sessionBtn.classList.add('selected');
+});

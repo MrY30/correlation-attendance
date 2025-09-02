@@ -11,6 +11,10 @@ const PORT = 3000;
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.get('/', (req, res) =>{
+    res.sendFile(path.join(__dirname, '../frontend/pages', 'admin_page_with_table.html'));
+});
+
+app.get('/MCMAdmin', (req, res) =>{
     res.sendFile(path.join(__dirname, '../frontend/pages', 'adminPage.html'));
 });
 

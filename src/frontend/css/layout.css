@@ -76,6 +76,7 @@ body{
     font-size: 2rem;
     background: var(--header-color);
     border-bottom: var(--header-border) 2px solid;
+    z-index: 1000;
 }
 .header-right{
     display: flex;
