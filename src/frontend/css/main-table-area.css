@@ -56,6 +56,16 @@
     font-weight: 500;
 }
 
+.status-registered{
+    background: var(--card-color);
+    color: var(--font-color-dark);
+}
+
+.status-not-registered{
+    background: var(--close-button-color);
+    color: var(--font-color-dark);
+}
+
 .status-badge{
     padding: 0.3rem 0.8rem;
     border-radius: 1rem;
