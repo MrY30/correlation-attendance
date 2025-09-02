@@ -90,6 +90,13 @@ body{
     padding: 0.2rem 0.5rem;
     font-size: 1rem;
 }
+.header-status-student{
+    background: var(--card-color);
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    padding: 0.2rem 0.5rem;
+    font-size: 1rem;
+}
 .header .bx{
     padding: 0.3rem;
     border-radius: 30px;

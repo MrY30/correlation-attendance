@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Correlation Attendance</title>
+	
+	<!-- CSS FILES -->
+    <link rel="stylesheet" href="../css/layout.css">
+	<link rel="stylesheet" href="../css/main-content.css">
+	<link rel="stylesheet" href="../css/main-table-area.css">
+	<link rel="stylesheet" href="../css/main-session.css">
+	<link rel="stylesheet" href="../css/main-session-information.css">
+	<link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+
+	<!-- FONTS -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+</head>
+<body class="dark-theme montserrat-font" id = "main-body">
+
+	<!-- HEADER SECTION -->
+	<header class="header" id="header">
+		<div class="header-title">Correlation Attendance</div>
+        <div class="header-right">
+            <div class="header-status-student">STUDENT</div>
+		    <div id="dm-button" class="bx bxs-sun-dim"></div>
+        </div>
+	</header>
+
+	<!-- MAIN SECTION -->
+	<section class="main" id="main">
+        <div class="main-content">
+			<div class="main-session">
+				<div class="session-container">
+					<div class="session-grid">
+						<div class="session-card" data-session-name="Mathematics Quiz" data-session-id="SESS-001" data-publish-date="Dec 15, 2024 09:00 AM" data-close-date="Dec 20, 2024 11:59 PM" data-status="Active">
+							<div class="session-card-header">
+								<h3>Mathematics Quiz</h3>
+								<span class="session-id">ID: SESS-001</span>
+							</div>
+							<div class="session-card-body">
+								<div class="session-info">
+									<i class='bx bx-calendar'></i>
+									<span>Published: Dec 15, 2024 09:00 AM</span>
+								</div>
+								<div class="session-info">
+									<i class='bx bx-time-five'></i>
+									<span>Closes: Dec 20, 2024 11:59 PM</span>
+								</div>
+							</div>
+							<div class="session-card-footer">
+								<span class="session-status status-active">Active</span>
+							</div>
+						</div>
+
+						<div class="session-card" data-session-name="Science Laboratory" data-session-id="SESS-002" data-publish-date="Dec 10, 2024 08:00 AM" data-close-date="Dec 12, 2024 05:00 PM" data-status="Closed">
+							<div class="session-card-header">
+								<h3>Science Laboratory</h3>
+								<span class="session-id">ID: SESS-002</span>
+							</div>
+							<div class="session-card-body">
+								<div class="session-info">
+									<i class='bx bx-calendar'></i>
+									<span>Published: Dec 10, 2024 08:00 AM</span>
+								</div>
+								<div class="session-info">
+									<i class='bx bx-time-five'></i>
+									<span>Closes: Dec 12, 2024 05:00 PM</span>
+								</div>
+							</div>
+							<div class="session-card-footer">
+								<span class="session-status status-closed">Closed</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Popup Modal -->
+				<div class="popup-overlay hidden" id="popup-overlay">
+					<div class="popup-modal">
+						<div class="popup-header">
+							<h2>Add New Session</h2>
+							<i class='bx bx-x popup-close' id="popup-close"></i>
+						</div>
+						<div class="popup-body">
+							<form class="session-form">
+								<div class="form-group">
+									<label for="session-name">Session Name</label>
+									<input type="text" id="session-name" class="form-input" placeholder="Enter session name" required>
+								</div>
+								<div class="form-group">
+									<label for="session-id">Session ID</label>
+									<input type="text" id="session-id" class="form-input" placeholder="Enter session ID" required>
+								</div>
+								<div class="form-row">
+									<div class="form-group">
+										<label for="publish-date">Publish Date</label>
+										<input type="date" id="publish-date" class="form-input" required>
+									</div>
+									<div class="form-group">
+										<label for="publish-time">Publish Time</label>
+										<input type="time" id="publish-time" class="form-input" required>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group">
+										<label for="close-date">Close Date</label>
+										<input type="date" id="close-date" class="form-input" required>
+									</div>
+									<div class="form-group">
+										<label for="close-time">Close Time</label>
+										<input type="time" id="close-time" class="form-input" required>
+									</div>
+								</div>
+								<div class="form-actions">
+									<button type="button" class="btn-cancel" id="cancel-btn">Cancel</button>
+									<button type="submit" class="btn-add" id="add-btn">Add Session</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+            </div>
+            <div class="attendance-reader">
+                casmdlkcad
+            </div>
+		</div>
+	</section>
+	<script type="text/javascript" src="../js/toggle.js"></script>
+	<script type="text/javascript" src="../js/edit.js"></script>
+</body>
+</html>
