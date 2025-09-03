@@ -305,3 +305,16 @@
 .btn-add:hover{
     background: var(--card-hover);
 }
+
+.session-status.status-active {
+  background: #d4f7dc; /* example */
+  color: #0a8a2f;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+.session-status.status-closed {
+  background: #ffe7e7;
+  color: #9a1b1b;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}

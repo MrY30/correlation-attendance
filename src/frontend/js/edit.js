@@ -32,33 +32,33 @@ searchInput.addEventListener('input', (e) => {
 });
 
 // Session edit functionality
-const editButtons = document.querySelectorAll('.edit-session-btn');
 const mainSession = document.querySelector('.main-session');
 const mainSessionInfo = document.querySelector('.main-session-information');
 const backButton = document.getElementById('back-to-sessions');
 
-editButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-        const sessionCard = e.target.closest('.session-card');
-        
-        // Get session data from data attributes
-        const sessionName = sessionCard.dataset.sessionName;
-        const sessionId = sessionCard.dataset.sessionId;
-        const publishDate = sessionCard.dataset.publishDate;
-        const closeDate = sessionCard.dataset.closeDate;
-        const status = sessionCard.dataset.status;
+const grid = document.querySelector('.session-grid');
 
-        // Update session information display
-        document.getElementById('session-detail-name').textContent = sessionName;
-        document.getElementById('session-detail-id').textContent = `ID: ${sessionId}`;
-        document.getElementById('session-detail-publish').textContent = publishDate;
-        document.getElementById('session-detail-close').textContent = closeDate;
-        document.getElementById('session-detail-status').textContent = status;
+grid.addEventListener('click', (e) => {
+  if (e.target.closest('.edit-session-btn')) {
+    const sessionCard = e.target.closest('.session-card');
 
-        // Hide main-session and show main-session-information
-        mainSession.classList.add('hidden');
-        mainSessionInfo.classList.remove('hidden');
-    });
+    if (!sessionCard) return;
+
+    const sessionName = sessionCard.dataset.sessionName;
+    const sessionId = sessionCard.dataset.sessionId;
+    const publishDate = sessionCard.dataset.publishDate;
+    const closeDate = sessionCard.dataset.closeDate;
+    const status = sessionCard.dataset.status;
+
+    document.getElementById('session-detail-name').textContent = sessionName;
+    document.getElementById('session-detail-id').textContent = `ID: ${sessionId}`;
+    document.getElementById('session-detail-publish').textContent = publishDate;
+    document.getElementById('session-detail-close').textContent = closeDate;
+    document.getElementById('session-detail-status').textContent = status;
+
+    mainSession.classList.add('hidden');
+    mainSessionInfo.classList.remove('hidden');
+  }
 });
 
 // Back to sessions functionality

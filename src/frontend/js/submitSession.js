@@ -1,3 +1,5 @@
+import { addSession } from './api.js';
+
 // Session popup functionality
 const addSessionBtn = document.getElementById('add-session-btn');
 const popupOverlay = document.getElementById('popup-overlay');
@@ -44,31 +46,11 @@ sessionForm.addEventListener('submit', async (e) => {
         open_date: `${publishDate}T${publishTime}`,
         close_date: `${closeDate}T${closeTime}`
     }
-    // console.log(sessionData)
     try {
-        const response = await fetch('/api/add-session', { // Your backend URL
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(sessionData),
-        });
-
-        if (!response.ok) {
-            const errorResult = await response.json();
-            throw new Error(errorResult.error || 'Failed to add session');
-        }
-
-        const result = await response.json();
-        // console.log('Success:', result);
-        
-        // 3. Handle success
+        const result = await addSession(sessionData);
         hidePopup();
         alert('Session added successfully!');
-
     } catch (error) {
-        // 4. Handle errors
-        // console.error('Error submitting form:', error);
         alert(`Error: ${error.message}`);
     }
 });
