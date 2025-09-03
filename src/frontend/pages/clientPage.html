@@ -32,52 +32,14 @@
 	<!-- MAIN SECTION -->
 	<section class="main" id="main">
         <div class="client-main-content">
-			<div class="main-session hidden">
+			<div class="main-session">
 				<div class="session-container">
 					<div class="session-grid">
-						<div class="session-card" data-session-name="Mathematics Quiz" data-session-id="SESS-001" data-publish-date="Dec 15, 2024 09:00 AM" data-close-date="Dec 20, 2024 11:59 PM" data-status="Active">
-							<div class="session-card-header">
-								<h3>Mathematics Quiz</h3>
-								<span class="session-id">ID: SESS-001</span>
-							</div>
-							<div class="session-card-body">
-								<div class="session-info">
-									<i class='bx bx-calendar'></i>
-									<span>Published: Dec 15, 2024 09:00 AM</span>
-								</div>
-								<div class="session-info">
-									<i class='bx bx-time-five'></i>
-									<span>Closes: Dec 20, 2024 11:59 PM</span>
-								</div>
-							</div>
-							<div class="session-card-footer">
-								<span class="session-status status-active">Active</span>
-							</div>
-						</div>
-
-						<div class="session-card" data-session-name="Science Laboratory" data-session-id="SESS-002" data-publish-date="Dec 10, 2024 08:00 AM" data-close-date="Dec 12, 2024 05:00 PM" data-status="Closed">
-							<div class="session-card-header">
-								<h3>Science Laboratory</h3>
-								<span class="session-id">ID: SESS-002</span>
-							</div>
-							<div class="session-card-body">
-								<div class="session-info">
-									<i class='bx bx-calendar'></i>
-									<span>Published: Dec 10, 2024 08:00 AM</span>
-								</div>
-								<div class="session-info">
-									<i class='bx bx-time-five'></i>
-									<span>Closes: Dec 12, 2024 05:00 PM</span>
-								</div>
-							</div>
-							<div class="session-card-footer">
-								<span class="session-status status-closed">Closed</span>
-							</div>
-						</div>
+						<!-- SESSION CARDS HERE -->
 					</div>
 				</div>
             </div>
-            <div class="attendance-reader">
+            <div class="attendance-reader hidden">
                 <!-- Header with Back Button and Session Info -->
 				<div class="reader-header">
 					<div class="session-info">
@@ -93,7 +55,7 @@
 							</div>
 						</div>
 					</div>
-					<button class="back-button" onclick="goBack()">
+					<button class="back-button">
 						<i class='bx bx-arrow-back'></i>
 						<span>Back to Sessions</span>
 					</button>
@@ -177,6 +139,7 @@
 	</section>
 	<script type="text/javascript" src="../js/toggle.js"></script>
 	<script type="text/javascript" src="../js/client.js"></script>
+	<script type="module" src="../js/clientCards.js"></script>
 </body>
 </html>
 <!-- <div class="client-main-content">
