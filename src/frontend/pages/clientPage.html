@@ -8,10 +8,8 @@
 	
 	<!-- CSS FILES -->
     <link rel="stylesheet" href="../css/layout.css">
-	<link rel="stylesheet" href="../css/main-content.css">
-	<link rel="stylesheet" href="../css/main-table-area.css">
 	<link rel="stylesheet" href="../css/main-session.css">
-	<link rel="stylesheet" href="../css/main-session-information.css">
+	<link rel="stylesheet" href="../css/attendance-reader.css">
 	<link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 
 	<!-- FONTS -->
@@ -33,8 +31,8 @@
 
 	<!-- MAIN SECTION -->
 	<section class="main" id="main">
-        <div class="main-content">
-			<div class="main-session">
+        <div class="client-main-content">
+			<div class="main-session hidden">
 				<div class="session-container">
 					<div class="session-grid">
 						<div class="session-card" data-session-name="Mathematics Quiz" data-session-id="SESS-001" data-publish-date="Dec 15, 2024 09:00 AM" data-close-date="Dec 20, 2024 11:59 PM" data-status="Active">
@@ -78,59 +76,111 @@
 						</div>
 					</div>
 				</div>
-
-				<!-- Popup Modal -->
-				<div class="popup-overlay hidden" id="popup-overlay">
-					<div class="popup-modal">
-						<div class="popup-header">
-							<h2>Add New Session</h2>
-							<i class='bx bx-x popup-close' id="popup-close"></i>
+            </div>
+            <div class="attendance-reader">
+                <!-- Header with Back Button and Session Info -->
+				<div class="reader-header">
+					<div class="session-info">
+						<h1 id="session-title">Mathematics Quiz</h1>
+						<div class="session-details">
+							<div class="session-detail">
+								<i class='bx bx-id-card'></i>
+								<span id="session-id">ID: SESS-001</span>
+							</div>
+							<div class="session-detail">
+								<i class='bx bx-calendar'></i>
+								<span id="session-date">Dec 15, 2024 09:00 AM - Dec 20, 2024 11:59 PM</span>
+							</div>
 						</div>
-						<div class="popup-body">
-							<form class="session-form">
-								<div class="form-group">
-									<label for="session-name">Session Name</label>
-									<input type="text" id="session-name" class="form-input" placeholder="Enter session name" required>
-								</div>
-								<div class="form-group">
-									<label for="session-id">Session ID</label>
-									<input type="text" id="session-id" class="form-input" placeholder="Enter session ID" required>
-								</div>
-								<div class="form-row">
-									<div class="form-group">
-										<label for="publish-date">Publish Date</label>
-										<input type="date" id="publish-date" class="form-input" required>
+					</div>
+					<button class="back-button" onclick="goBack()">
+						<i class='bx bx-arrow-back'></i>
+						<span>Back to Sessions</span>
+					</button>
+				</div>
+
+				<!-- Main Content -->
+				<div class="reader-content">
+					<!-- RFID Input Section -->
+					<div class="rfid-section" onclick="focusInput()">
+						<i class='bx bx-credit-card rfid-icon'></i>
+						<h2 class="rfid-title">Ready to Scan</h2>
+						<p class="rfid-instruction">
+							Tap your student ID card on the RFID reader<br>
+							or manually enter your Student ID below
+						</p>
+						
+						<!-- Hidden input that captures RFID scanner input -->
+						<input type="text" 
+							id="rfid-input" 
+							class="rfid-input" 
+							placeholder="Student ID" 
+							autocomplete="off"
+							onkeypress="handleRFIDInput(event)"
+							onblur="refocusInput()">
+						
+						<div class="rfid-status">
+							<i class='bx bx-wifi'></i>
+							<span>Scanner Ready</span>
+						</div>
+					</div>
+
+					<!-- Student Information Section -->
+					<div class="student-section">
+						<!-- Placeholder when no student is scanned -->
+						<div class="student-placeholder" id="student-placeholder">
+							<i class='bx bx-user'></i>
+							<h3>Student Information</h3>
+							<p>Scan a student ID to display information</p>
+						</div>
+
+						<!-- Student information display -->
+						<div class="student-info" id="student-info">
+							<div class="student-details">
+								<div class="detail-row">
+									<i class='bx bx-user detail-icon'></i>
+									<div class="detail-content">
+										<div class="detail-label">Student Name</div>
+										<div class="detail-value" id="student-name">John Doe</div>
 									</div>
-									<div class="form-group">
-										<label for="publish-time">Publish Time</label>
-										<input type="time" id="publish-time" class="form-input" required>
+								</div>
+
+								<div class="detail-row">
+									<i class='bx bx-id-card detail-icon'></i>
+									<div class="detail-content">
+										<div class="detail-label">Student ID</div>
+										<div class="detail-value" id="student-id">2024-0001</div>
 									</div>
 								</div>
-								<div class="form-row">
-									<div class="form-group">
-										<label for="close-date">Close Date</label>
-										<input type="date" id="close-date" class="form-input" required>
-									</div>
-									<div class="form-group">
-										<label for="close-time">Close Time</label>
-										<input type="time" id="close-time" class="form-input" required>
+
+								<div class="detail-row">
+									<i class='bx bx-group detail-icon'></i>
+									<div class="detail-content">
+										<div class="detail-label">Section</div>
+										<div class="detail-value" id="student-section">A-1</div>
 									</div>
 								</div>
-								<div class="form-actions">
-									<button type="button" class="btn-cancel" id="cancel-btn">Cancel</button>
-									<button type="submit" class="btn-add" id="add-btn">Add Session</button>
-								</div>
-							</form>
+							</div>
+
+							<!-- Attendance Status Message -->
+							<div class="attendance-status status-present" id="attendance-message">
+								<i class='bx bx-check-circle'></i>
+								Attendance Recorded Successfully!
+							</div>
 						</div>
 					</div>
 				</div>
-            </div>
-            <div class="attendance-reader">
-                casmdlkcad
+			</div>
+        </div>
             </div>
 		</div>
 	</section>
 	<script type="text/javascript" src="../js/toggle.js"></script>
-	<script type="text/javascript" src="../js/edit.js"></script>
+	<script type="text/javascript" src="../js/client.js"></script>
 </body>
 </html>
+<!-- <div class="client-main-content">
+	<div class="attendance-reader">
+		casmdlkcad
+	</div>
+</div> -->

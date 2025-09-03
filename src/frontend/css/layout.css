@@ -21,6 +21,11 @@
     --header-border: #d1dadf;
     --icon-hover: #edeff0;
     --close-button-color: #f07361;
+
+    --border-bottom-color: #ffffff;
+    --success-color: #4caf50;
+    --warning-color: #ff9800;
+    --info-color: #2196f3;
 }
 
 /* DARK MODE */
