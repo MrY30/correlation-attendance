@@ -46,6 +46,7 @@ async function generatePdfForSession(sessionId, options = {}) {
   let y = 40;
 
   // Header
+  doc.setFont("times","normal");
   doc.setFontSize(16);
   doc.text(session.session_name || 'Session', marginLeft, y);
   doc.setFontSize(11);

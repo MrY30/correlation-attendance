@@ -4,11 +4,11 @@ import { supabaseAdmin } from '../lib/supabaseClient.js';
 
 const router = Router();
 
-const student_profile = 'student_profile';
-const attendance_logs = 'attendance_logs';
+// const student_profile = 'student_profile';
+// const attendance_logs = 'attendance_logs';
 
-// const student_profile = 'deployed_student_profile';
-// const attendance_logs = 'deployed_attendance_logs';
+const student_profile = 'deployed_student_profile';
+const attendance_logs = 'deployed_attendance_logs';
 
 // POST /api/attendance/scan
 router.post('/scan', async (req, res) => {

@@ -4,6 +4,12 @@ import { supabaseAdmin } from '../lib/supabaseClient.js'; // use your server-sid
 
 const router = Router();
 
+// const sessions = 'sessions';
+// const attendance_logs = 'attendance_logs';
+
+const sessions = 'deployed_sessions';
+const attendance_logs = 'deployed_attendance_logs';
+
 // GET /api/reports/:sessionId/attendance
 router.get('/:sessionId/attendance', async (req, res) => {
   try {
@@ -12,7 +18,7 @@ router.get('/:sessionId/attendance', async (req, res) => {
 
     // 1) fetch session info
     const { data: session, error: sessionErr } = await supabaseAdmin
-      .from('sessions')
+      .from(sessions)
       .select('session_name, session_id, open_date, close_date')
       .eq('session_id', sessionId)
       .maybeSingle();
@@ -22,7 +28,7 @@ router.get('/:sessionId/attendance', async (req, res) => {
 
     // 2) fetch attendance logs for that session
     const { data: logs, error: logsErr } = await supabaseAdmin
-      .from('attendance_logs')
+      .from(attendance_logs)
       .select('student_id, student_name, section, status')
       .eq('session_id', sessionId)
       .order('student_name', { ascending: true });

@@ -4,10 +4,9 @@ import { supabaseAdmin } from '../lib/supabaseClient.js';
 
 const router = Router();
 
+// const student_profile = 'student_profile';
 
-const student_profile = 'student_profile';
-
-// const student_profile = 'deployed_student_profile';
+const student_profile = 'deployed_student_profile';
 
 /**
  * GET /api/students
@@ -17,7 +16,7 @@ const student_profile = 'student_profile';
 router.get('/', async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 200;
+    const limit = Number(req.query.limit) || 1000;
     const from = (page - 1) * limit;
     const to = from + limit - 1;
 
