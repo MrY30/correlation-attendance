@@ -14,10 +14,12 @@ const sessionBtn = document.getElementById('session-btn');
 
 const mainRegister = document.querySelector('.main-register');
 const mainSessions = document.querySelector('.main-session');
+const mainSessionInformation = document.querySelector('.main-session-information');
 
 registerBtn.addEventListener('click', ()=>{
     mainRegister.classList.remove('hidden');
     mainSessions.classList.add('hidden');
+    mainSessionInformation.classList.add('hidden');
     registerBtn.classList.add('selected');
     sessionBtn.classList.remove('selected');
 });
@@ -25,6 +27,7 @@ registerBtn.addEventListener('click', ()=>{
 sessionBtn.addEventListener('click', ()=>{
     mainSessions.classList.remove('hidden');
     mainRegister.classList.add('hidden');
+    mainSessionInformation.classList.add('hidden');
     registerBtn.classList.remove('selected');
     sessionBtn.classList.add('selected');
 });

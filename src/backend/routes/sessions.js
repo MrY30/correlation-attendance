@@ -3,6 +3,14 @@ import { supabaseAdmin } from '../lib/supabaseClient.js';
 
 const router = Router();
 
+// const sessions = 'sessions';
+// const student_profile = 'student_profile';
+// const attendance_logs = 'attendance_logs';
+
+const sessions = 'deployed_sessions';
+const student_profile = 'deployed_student_profile';
+const attendance_logs = 'deployed_attendance_logs';
+
 router.post('/', async (req, res) => {
     try{
         // Get the data from the request body
@@ -15,7 +23,7 @@ router.post('/', async (req, res) => {
 
         // Insert data into your Supabase table (e.g., a table named 'sessions')
         const { data: sessionData, error: sessionError } = await supabaseAdmin
-            .from('sessions') // ❗ Make sure 'sessions' is your actual table name
+            .from(sessions) // ❗ Make sure 'sessions' is your actual table name
             .insert([
                 {
                     // Map your data to the column names in your Supabase table
@@ -34,7 +42,7 @@ router.post('/', async (req, res) => {
         const newSessionId = sessionData.session_id;
 
         const { data: studentProfiles, error: studentError } = await supabaseAdmin
-                .from('student_profile') // Your source table
+                .from(student_profile) // Your source table
                 .select('name, school_id, section');
         
         if (studentError) throw studentError;
@@ -49,7 +57,7 @@ router.post('/', async (req, res) => {
 
         if (attendanceRecordsToInsert.length > 0) {
             const { error: insertError } = await supabaseAdmin
-                .from('attendance_logs') // Your destination table
+                .from(attendance_logs) // Your destination table
                 .insert(attendanceRecordsToInsert);
 
             if (insertError) throw insertError;
@@ -70,7 +78,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const { data, error } = await supabaseAdmin
-      .from('sessions')
+      .from(sessions)
       .select('session_name, session_id, open_date, close_date') // adjust column names as needed
       .order('open_date', { ascending: false });
 

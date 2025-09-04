@@ -4,6 +4,12 @@ import { supabaseAdmin } from '../lib/supabaseClient.js';
 
 const router = Router();
 
+// const student_profile = 'student_profile';
+// const attendance_logs = 'attendance_logs';
+
+const student_profile = 'deployed_student_profile';
+const attendance_logs = 'deployed_attendance_logs';
+
 // POST /api/attendance/scan
 router.post('/scan', async (req, res) => {
   try {
@@ -15,7 +21,7 @@ router.post('/scan', async (req, res) => {
 
     // Step 1: Find student by RFID code
     const { data: student, error: studentError } = await supabaseAdmin
-      .from('student_profile')
+      .from(student_profile)
       .select('school_id, name, section')
       .eq('rfid_code', rfidCode)
       .single();
@@ -26,7 +32,7 @@ router.post('/scan', async (req, res) => {
 
     // Step 2: Look up attendance log for this session + student
     const { data: log, error: logError } = await supabaseAdmin
-      .from('attendance_logs')
+      .from(attendance_logs)
       .select('status')
       .eq('session_id', sessionId)
       .eq('student_id', student.school_id)
@@ -46,7 +52,7 @@ router.post('/scan', async (req, res) => {
 
     // Step 4: Update status to Present
     const { error: updateError } = await supabaseAdmin
-      .from('attendance_logs')
+      .from(attendance_logs)
       .update({ status: 'Present' })
       .eq('session_id', sessionId)
       .eq('student_id', student.school_id);

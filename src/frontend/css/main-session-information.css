@@ -132,9 +132,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid var(--header-border);
 }
 
 .session-table-header h3{
@@ -143,10 +140,19 @@
     color: var(--font-color);
 }
 
-.participant-count{
-    background: var(--card-color);
-    color: var(--font-color-dark);
-    padding: 0.5rem 1rem;
+.pdf-export{
+    border: 2px var(--card-color) solid;
+    background: var(--background-color);
+    color: var(--font-color);
+    padding: 1rem 1rem;
     border-radius: 1rem;
     font-weight: 600;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.pdf-export:hover{
+    border: 2px var(--card-color) solid;
+    background: var(--card-color);
+    color: var(--font-color-dark);
 }

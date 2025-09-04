@@ -4,6 +4,11 @@ import { supabaseAdmin } from '../lib/supabaseClient.js';
 
 const router = Router();
 
+
+// const student_profile = 'student_profile';
+
+const student_profile = 'deployed_student_profile';
+
 /**
  * GET /api/students
  * Optional query params: ?page=1&limit=200
@@ -20,7 +25,7 @@ router.get('/', async (req, res) => {
     const columns = 'name,school_id,section,rfid_code';
 
     const { data, error } = await supabaseAdmin
-      .from('student_profile')
+      .from(student_profile)
       .select(columns)
       .order('name', { ascending: true })
       .range(from, to);
