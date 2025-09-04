@@ -95,13 +95,6 @@ function showAttendanceMessage(status) {
     }
 }
 
-function goBack() {
-    // This function should hide attendance reader and show main session
-    // Implementation depends on your main application structure
-    console.log('Going back to sessions...');
-    alert('Back button clicked - implement navigation logic here');
-}
-
 // Keep input focused at all times
 document.addEventListener('click', function(event) {
     if (!event.target.matches('button') && !event.target.matches('input')) {
