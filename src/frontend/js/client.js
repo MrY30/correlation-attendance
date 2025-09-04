@@ -1,31 +1,3 @@
-let attendedStudents = new Set(); // Track students who have already attended
-
-// Auto-focus the input when page loads
-window.onload = function() {
-    focusInput();
-};
-
-function focusInput() {
-    document.getElementById('rfid-input').focus();
-}
-
-function refocusInput() {
-    // Automatically refocus the input after a short delay
-    setTimeout(() => {
-        document.getElementById('rfid-input').focus();
-    }, 100);
-}
-
-function handleRFIDInput(event) {
-    if (event.key === 'Enter') {
-        const studentId = event.target.value.trim();
-        if (studentId) {
-            processStudentId(studentId);
-            event.target.value = ''; // Clear input
-        }
-    }
-}
-
 function processStudentId(studentId) {
     // Add scanner effect
     const rfidSection = document.querySelector('.rfid-section');
@@ -51,10 +23,7 @@ function processStudentId(studentId) {
     } else {
         // Handle student not found
         alert('Student ID not found: ' + studentId);
-    }
-
-    // Refocus input for next scan
-    refocusInput();
+    };
 }
 
 function getStudentData(studentId) {
@@ -77,10 +46,6 @@ function displayStudentInfo(student) {
     document.getElementById('student-name').textContent = student.name;
     document.getElementById('student-id').textContent = student.id;
     document.getElementById('student-section').textContent = student.section;
-    
-    // Update avatar with initials
-    const initials = student.name.split(' ').map(n => n[0]).join('');
-    document.getElementById('student-avatar').textContent = initials;
 }
 
 function showAttendanceMessage(status) {
@@ -94,13 +59,6 @@ function showAttendanceMessage(status) {
         messageElement.innerHTML = '<i class="bx bx-info-circle"></i> Already Attended';
     }
 }
-
-// Keep input focused at all times
-document.addEventListener('click', function(event) {
-    if (!event.target.matches('button') && !event.target.matches('input')) {
-        focusInput();
-    }
-});
 
 // Demo: Simulate scanning after 3 seconds
 setTimeout(() => {

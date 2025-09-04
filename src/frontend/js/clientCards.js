@@ -66,10 +66,6 @@ function createSessionCard(session) {
     </div>
     <div class="session-card-footer">
       <span class="session-status ${statusClass}">${display}</span>
-      <div class="session-actions">
-        <i class='bx bx-edit-alt edit-session-btn'></i>
-        <i class='bx bx-trash delete-session-btn'></i>
-      </div>
     </div>
   `;
 
@@ -143,6 +139,7 @@ function setupUIInteractions() {
       // 2. Populate the attendance reader header
       document.getElementById('session-title').textContent = sessionName;
       document.getElementById('session-id').textContent = `ID: ${sessionId}`;
+      document.getElementById('session-id').dataset.session = sessionId;
       document.getElementById('session-date').textContent = `${publishDate} - ${closeDate}`;
 
       // 3. Switch the view

@@ -64,23 +64,13 @@
 				<!-- Main Content -->
 				<div class="reader-content">
 					<!-- RFID Input Section -->
-					<div class="rfid-section" onclick="focusInput()">
+					<div class="rfid-section">
 						<i class='bx bx-credit-card rfid-icon'></i>
 						<h2 class="rfid-title">Ready to Scan</h2>
 						<p class="rfid-instruction">
 							Tap your student ID card on the RFID reader<br>
 							or manually enter your Student ID below
 						</p>
-						
-						<!-- Hidden input that captures RFID scanner input -->
-						<input type="text" 
-							id="rfid-input" 
-							class="rfid-input" 
-							placeholder="Student ID" 
-							autocomplete="off"
-							onkeypress="handleRFIDInput(event)"
-							onblur="refocusInput()">
-						
 						<div class="rfid-status">
 							<i class='bx bx-wifi'></i>
 							<span>Scanner Ready</span>
@@ -94,6 +84,12 @@
 							<i class='bx bx-user'></i>
 							<h3>Student Information</h3>
 							<p>Scan a student ID to display information</p>
+						</div>
+
+						<div class="not-found" id="not-found">
+							<i class='bx bx-x'></i>
+							<h3>Student Not Found</h3>
+							<p>Please Try Again</p>
 						</div>
 
 						<!-- Student information display -->
@@ -130,6 +126,9 @@
 								Attendance Recorded Successfully!
 							</div>
 						</div>
+
+
+
 					</div>
 				</div>
 			</div>
@@ -137,9 +136,11 @@
             </div>
 		</div>
 	</section>
-	<script type="text/javascript" src="../js/toggle.js"></script>
-	<script type="text/javascript" src="../js/client.js"></script>
+	<script type="text/javascript" src="../js/toggleClient.js"></script>
+	<!-- <script type="text/javascript" src="../js/client.js"></script> -->
 	<script type="module" src="../js/clientCards.js"></script>
+	<script type="module" src="../js/processId.js"></script>
+	<script type="module" src="../js/scanRFID.js"></script>
 </body>
 </html>
 <!-- <div class="client-main-content">

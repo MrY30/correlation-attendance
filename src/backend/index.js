@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 // Import Routers
 import studentsRouter from './routes/students.js';
 import sessionsRouter from './routes/sessions.js';
+import attendanceRoutes from './routes/attendance.js';
 
 import cors from 'cors';
 import { createClient } from '@supabase/supabase-js';
@@ -38,6 +39,7 @@ app.get('/MCMAdmin', (req, res) => {
 // API routes
 app.use('/api/students', studentsRouter);
 app.use('/api/sessions', sessionsRouter);
+app.use('/api/attendance', attendanceRoutes);
 
 // Start server
 app.listen(PORT,() => { 

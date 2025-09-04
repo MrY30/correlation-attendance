@@ -31,3 +31,14 @@ export async function fetchSessions() {
   const body = await res.json();
   return body.data || [];
 }
+
+export async function scanAttendance(rfidCode, sessionId) {
+  const res = await fetch('/api/attendance/scan', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ rfidCode, sessionId })
+  });
+
+  if (!res.ok) throw new Error('Network error');
+  return res.json();
+}
