@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import studentsRouter from './routes/students.js';
 import sessionsRouter from './routes/sessions.js';
 import attendanceRoutes from './routes/attendance.js';
+import reportsRoutes from './routes/reports.js';
 
 import cors from 'cors';
 import { createClient } from '@supabase/supabase-js';
@@ -22,11 +23,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// Initialize Supabase client
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
-
 // Routes
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/pages', 'clientPage.html'));
@@ -40,6 +36,7 @@ app.get('/MCMAdmin', (req, res) => {
 app.use('/api/students', studentsRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use('/api/attendance', attendanceRoutes);
+app.use('/api/reports', reportsRoutes);
 
 // Start server
 app.listen(PORT,() => { 

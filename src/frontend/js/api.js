@@ -42,3 +42,12 @@ export async function scanAttendance(rfidCode, sessionId) {
   if (!res.ok) throw new Error('Network error');
   return res.json();
 }
+
+export async function fetchAttendanceData(sessionId) {
+  const res = await fetch(`/api/reports/${encodeURIComponent(sessionId)}/attendance`);
+  if (!res.ok) {
+    const errBody = await res.json().catch(() => ({}));
+    throw new Error(errBody.error || `Fetch failed: ${res.status}`);
+  }
+  return res.json(); // { session, logs }
+}

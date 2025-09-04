@@ -19,6 +19,10 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
+	<!-- put these in your admin page <head> or right before your export module script -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
 </head>
 <body class="dark-theme montserrat-font" id = "main-body">
 
@@ -216,5 +220,7 @@
 	<script type="module" src="../js/submitSession.js"></script>
 	<script type="module" src="../js/studentsTable.js"></script>
 	<script type="module" src="../js/sessionCards.js"></script>
+	<!-- in admin.html -->
+	<script type="module" src="../js/exportPdf.js"></script>
 </body>
 </html>
