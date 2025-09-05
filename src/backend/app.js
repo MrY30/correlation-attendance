@@ -22,8 +22,8 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Routes
 app.get('/', (req, res) => {
-    // res.sendFile(path.join(__dirname, '../frontend/pages', 'clientPage.html'));
-    res.send("hello world")
+    res.sendFile(path.join(__dirname, '../frontend/pages', 'clientPage.html'));
+    // res.send("hello world")
 });
 
 app.get('/MCMAdmin', (req, res) => {
@@ -37,7 +37,7 @@ app.use('/api/attendance', attendanceRoutes);
 app.use('/api/reports', reportsRoutes);
 
 // Start server
-app.listen(PORT,() => { 
-    console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(3000,() => { 
+    console.log(`Server is running on http://localhost:3000`);
 });
 export default app;
