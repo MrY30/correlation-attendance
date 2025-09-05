@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/backend/index.js"
+    "start": "nodemon src/backend/index.js",
+    "dev": "nodemon src/backend/index.js"
   },
   "repository": {
     "type": "git",
