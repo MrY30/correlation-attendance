@@ -1,54 +1,44 @@
-// import express from 'express';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// // Import Routers
-// import studentsRouter from './routes/students.js';
-// import sessionsRouter from './routes/sessions.js';
-// import attendanceRoutes from './routes/attendance.js';
-// import reportsRoutes from './routes/reports.js';
+// Import Routers
+import studentsRouter from './routes/students.js';
+import sessionsRouter from './routes/sessions.js';
+import attendanceRoutes from './routes/attendance.js';
+import reportsRoutes from './routes/reports.js';
 
-// import cors from 'cors';
+import cors from 'cors';
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// const app = express();
-// const PORT = 3000;
-
-// // Middleware
-// app.use(cors());
-// app.use(express.json());
-// app.use(express.static(path.join(__dirname, '../frontend')));
-
-// // Routes
-// app.get('/', (req, res) => {
-//     // res.sendFile(path.join(__dirname, '../frontend/pages', 'clientPage.html'));
-//     res.send("hello world")
-// });
-
-// app.get('/MCMAdmin', (req, res) => {
-//     res.sendFile(path.join(__dirname, '../frontend/pages', 'adminPage.html'));
-// });
-
-// // API routes
-// app.use('/api/students', studentsRouter);
-// app.use('/api/sessions', sessionsRouter);
-// app.use('/api/attendance', attendanceRoutes);
-// app.use('/api/reports', reportsRoutes);
-
-// // Start server
-// // app.listen(PORT,() => { 
-// //     console.log(`Server is running on http://localhost:${PORT}`);
-// // });
-// export default app;
-
-import express from "express";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
+const PORT = 3000;
 
-app.get("/", (req, res) => {
-  res.send("hello world");
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+// Routes
+app.get('/', (req, res) => {
+    // res.sendFile(path.join(__dirname, '../frontend/pages', 'clientPage.html'));
+    res.send("hello world")
 });
 
+app.get('/MCMAdmin', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/pages', 'adminPage.html'));
+});
+
+// API routes
+app.use('/api/students', studentsRouter);
+app.use('/api/sessions', sessionsRouter);
+app.use('/api/attendance', attendanceRoutes);
+app.use('/api/reports', reportsRoutes);
+
+// Start server
+// app.listen(PORT,() => { 
+//     console.log(`Server is running on http://localhost:${PORT}`);
+// });
 export default app;
