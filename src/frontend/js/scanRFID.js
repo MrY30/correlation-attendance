@@ -38,7 +38,7 @@ document.addEventListener('keydown', (event) => {
     // Case 1: Scanner sends Enter key to mark the end
     if (event.key === 'Enter') {
         if (scanBuffer) {
-            console.log("Scanned RFID (Enter):", scanBuffer);
+            // console.log("Scanned RFID (Enter):", scanBuffer);
             processStudentId(scanBuffer);
             scanBuffer = ''; // reset buffer
         }
@@ -54,7 +54,7 @@ document.addEventListener('keydown', (event) => {
     clearTimeout(scanTimeout);
     scanTimeout = setTimeout(() => {
         if (scanBuffer) {
-            console.log("Scanned RFID (Timeout):", scanBuffer);
+            // console.log("Scanned RFID (Timeout):", scanBuffer);
             processStudentId(scanBuffer);
             scanBuffer = ''; // reset buffer
         }
