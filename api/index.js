@@ -4,11 +4,8 @@
 
 // export default serverless(app);
 
-import express from 'express';
+// api/index.js
+export default function handler(req, res) {
+  res.status(200).send("Hello World");
+}
 
-const app = express();
-
-app.get('/', (req, res) => {
-    // res.sendFile(path.join(__dirname, '../frontend/pages', 'clientPage.html'));
-    res.send("hello world")
-});
