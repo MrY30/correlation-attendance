@@ -9,8 +9,6 @@ import attendanceRoutes from './routes/attendance.js';
 import reportsRoutes from './routes/reports.js';
 
 import cors from 'cors';
-import { createClient } from '@supabase/supabase-js';
-import dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,6 +37,7 @@ app.use('/api/attendance', attendanceRoutes);
 app.use('/api/reports', reportsRoutes);
 
 // Start server
-app.listen(PORT,() => { 
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// app.listen(PORT,() => { 
+//     console.log(`Server is running on http://localhost:${PORT}`);
+// });
+export default app;
