@@ -118,3 +118,12 @@ body{
     display: flex;
 }
 
+.footer{
+    position: fixed;
+    bottom:20px;
+    right: 20px;
+    font-size: 1.5rem;
+    font-style: italic;
+    opacity: 30%;
+}
+

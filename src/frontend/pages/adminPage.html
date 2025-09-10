@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="../css/main-table-area.css">
 	<link rel="stylesheet" href="../css/main-session.css">
 	<link rel="stylesheet" href="../css/main-session-information.css">
+	<link rel="stylesheet" href="../css/switch.css">
 	<link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 
 	<!-- FONTS -->
@@ -94,37 +95,99 @@
 						</div>
 						<div class="popup-body">
 							<form class="session-form">
-								<div class="form-group">
-									<label for="session-name">Session Name</label>
-									<input type="text" id="session-name" class="form-input" placeholder="Enter session name" required>
-								</div>
-								<div class="form-group">
-									<label for="session-id">Session ID</label>
-									<input type="text" id="session-id" class="form-input" placeholder="Enter session ID" required>
-								</div>
-								<div class="form-row">
-									<div class="form-group">
-										<label for="publish-date">Publish Date</label>
-										<input type="date" id="publish-date" class="form-input" required>
+								<div class="form-main-content">
+									<div class="form-column">
+										<div class="form-group">
+											<label for="session-id">Session ID</label>
+											<input type="text" id="session-id" class="form-input" placeholder="Enter session ID" required>
+										</div>
+										<div class="form-group">
+											<label for="session-name">Session Name</label>
+											<input type="text" id="session-name" class="form-input" placeholder="Enter session name" required>
+										</div>
+										<div class="form-group">
+											<label for="session-week-number">Week Number</label>
+											<input type="number" id="session-week-number" class="form-input" placeholder="Enter week number" required>
+										</div>
+										<div class="form-row">
+											<div class="form-group">
+												<label for="publish-date">Publish Date</label>
+												<input type="date" id="publish-date" class="form-input" required>
+											</div>
+											<div class="form-group">
+												<label for="close-date">Close Date</label>
+												<input type="date" id="close-date" class="form-input" required>
+											</div>
+										</div>
 									</div>
-									<div class="form-group">
-										<label for="publish-time">Publish Time</label>
-										<input type="time" id="publish-time" class="form-input" required>
+									<div class="form-column">
+										<div class="form-section">
+											<h4 class="form-section-label">Weekly Exam</h4>
+											<div class="form-row-three">
+												<div class="form-group">
+													<label for="publish-time">Start Time</label>
+													<input type="time" id="weekly-start-time" class="form-input" required>
+												</div>
+												<div class="form-group">
+													<label for="publish-time">Late Time</label>
+													<input type="time" id="weekly-late-time" class="form-input" required>
+												</div>
+												<div class="form-group">
+													<label for="close-time">End Time</label>
+													<input type="time" id="weekly-end-time" class="form-input" required>
+												</div>
+											</div>
+										</div>
+										
+										<div class="form-section">
+											<h4 class="form-section-label">AM Session</h4>
+											<div class="form-row-three">
+												<div class="form-group">
+													<label for="publish-time">Start Time</label>
+													<input type="time" id="am-start-time" class="form-input" required>
+												</div>
+												<div class="form-group">
+													<label for="publish-time">Late Time</label>
+													<input type="time" id="am-late-time" class="form-input" required>
+												</div>
+												<div class="form-group">
+													<label for="close-time">End Time</label>
+													<input type="time" id="am-end-time" class="form-input" required>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-section">
+											<h4 class="form-section-label">PM Session</h4>
+											<div class="form-row-three">
+												<div class="form-group">
+													<label for="publish-time">Start Time</label>
+													<input type="time" id="pm-start-time" class="form-input" required>
+												</div>
+												<div class="form-group">
+													<label for="publish-time">Late Time</label>
+													<input type="time" id="pm-late-time" class="form-input" required>
+												</div>
+												<div class="form-group">
+													<label for="close-time">End Time</label>
+													<input type="time" id="pm-end-time" class="form-input" required>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
-								<div class="form-row">
-									<div class="form-group">
-										<label for="close-date">Close Date</label>
-										<input type="date" id="close-date" class="form-input" required>
+								<div class="form-bottom-content">
+									<div class="toggle-area">
+										<span class="switch-label">Demo Mode:</span>
+										<label class="switch">
+											<input type="checkbox">
+											<span class="slider"></span>
+										</label>
 									</div>
-									<div class="form-group">
-										<label for="close-time">Close Time</label>
-										<input type="time" id="close-time" class="form-input" required>
+									<div class="form-actions">
+										<button type="button" class="btn-cancel" id="cancel-btn">Cancel</button>
+										<button type="submit" class="btn-add" id="add-btn">Add Session</button>
 									</div>
-								</div>
-								<div class="form-actions">
-									<button type="button" class="btn-cancel" id="cancel-btn">Cancel</button>
-									<button type="submit" class="btn-add" id="add-btn">Add Session</button>
 								</div>
 							</form>
 						</div>
@@ -215,6 +278,12 @@
 			</div>
 		</div>
 	</section>
+
+	<!-- ALL RIGHTS RESERVED -->
+	 <div class="footer">
+		&lt?&gt
+	 </div>
+
 	<script type="text/javascript" src="../js/toggle.js"></script>
 	<script type="text/javascript" src="../js/edit.js"></script>
 	<script type="module" src="../js/submitSession.js"></script>

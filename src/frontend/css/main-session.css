@@ -192,7 +192,7 @@
     background: var(--header-color);
     border-radius: 1rem;
     width: 90%;
-    max-width: 500px;
+    max-width: 1000px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
     transform: scale(0.9);
     transition: transform 0.3s ease;
@@ -244,6 +244,12 @@
     gap: 0.5rem;
 }
 
+.form-row-three{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
 .form-row{
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -276,6 +282,43 @@
     gap: 1rem;
     justify-content: flex-end;
     margin-top: 1rem;
+}
+
+/* NEW: Main container for form fields */
+.form-main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Creates two equal-width columns */
+    gap: 2rem; /* Adjust the space between the columns */
+}
+
+/* NEW: Column container */
+.form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* This provides vertical spacing for items within each column */
+}
+
+.form-bottom-content{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Add this to main-session.css */
+
+.form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem; /* Adjusts space between the label and its inputs */
+}
+
+.form-section-label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--font-color);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--header-border);
+    margin: 0;
 }
 
 .btn-cancel, .btn-add{
