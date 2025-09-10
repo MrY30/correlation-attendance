@@ -56,13 +56,13 @@
     transform: translateY(-2px);
 }
 
-.session-info {
+.session-information {
     text-align: left;
     flex: 1;
     margin: 0 2rem;
 }
 
-.session-info h1 {
+.session-information h1 {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
     color: var(--card-color);
@@ -304,7 +304,7 @@
         text-align: center;
     }
     
-    .session-info {
+    .session-information {
         margin: 0;
     }
 }

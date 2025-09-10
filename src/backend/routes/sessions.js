@@ -3,21 +3,45 @@ import { supabaseAdmin } from '../lib/supabaseClient.js';
 
 const router = Router();
 
-// const sessions = 'sessions';
-// const student_profile = 'student_profile';
-// const attendance_logs = 'attendance_logs';
-
-const sessions = 'deployed_sessions';
+// const sessions = 'deployed_sessions';
+const sessions = 'sessions_v2';
 const student_profile = 'deployed_student_profile';
-const attendance_logs = 'deployed_attendance_logs';
+// const attendance_logs = 'deployed_attendance_logs';
+const attendance_logs = 'attendance_logs_v2';
 
 router.post('/', async (req, res) => {
     try{
         // Get the data from the request body
-        const { session_name, session_id, open_date, close_date } = req.body;
+        const { 
+            session_name,
+            session_id,
+            publish_date,
+            weekly_start,
+            weekly_late,
+            weekly_end,
+            am_start,
+            am_late,
+            am_end,
+            pm_start,
+            pm_late,
+            pm_end
+         } = req.body;
 
         // Validate that required data is present
-        if (!session_name || !session_id || !open_date || !close_date) {
+        if (
+            !session_name ||
+            !session_id ||
+            !publish_date ||
+            !weekly_start ||
+            !weekly_late ||
+            !weekly_end ||
+            !am_start ||
+            !am_late ||
+            !am_end ||
+            !pm_start ||
+            !pm_late ||
+            !pm_end
+        ) {
             return res.status(400).json({ error: 'Missing required session data.' });
         }
 
@@ -27,10 +51,18 @@ router.post('/', async (req, res) => {
             .insert([
                 {
                     // Map your data to the column names in your Supabase table
-                    session_name: session_name, // e.g., 'session_name' is the column in Supabase
+                    session_name: session_name,
                     session_id: session_id,
-                    open_date: open_date,
-                    close_date: close_date,
+                    publish_date: publish_date,
+                    weekly_start: weekly_start,
+                    weekly_late: weekly_late,
+                    weekly_end: weekly_end,
+                    am_start: am_start,
+                    am_late: am_late,
+                    am_end: am_end,
+                    pm_start: pm_start,
+                    pm_late: pm_late,
+                    pm_end: pm_end
                 }
             ])
             .select()
@@ -52,7 +84,9 @@ router.post('/', async (req, res) => {
             student_id: student.school_id,      // Map 'school_id' to 'student_id'
             section: student.section,           // 'section' column names match
             session_id: newSessionId,           // Use the ID from the newly created session
-            status: 'Absent'                    // Set the default status
+            exam_status: 'Absent',
+            am_status: 'Absent',
+            pm_status: 'Absent'
         }));
 
         if (attendanceRecordsToInsert.length > 0) {
@@ -75,12 +109,13 @@ router.post('/', async (req, res) => {
     
 });
 
+// EDIT BUT LATER
 router.get('/', async (req, res) => {
   try {
     const { data, error } = await supabaseAdmin
       .from(sessions)
-      .select('session_name, session_id, open_date, close_date') // adjust column names as needed
-      .order('open_date', { ascending: false });
+      .select('session_name, session_id, publish_date, weekly_start, weekly_late, weekly_end, am_start, am_late, am_end, pm_start, pm_late, pm_end') // adjust column names as needed
+      .order('publish_date', { ascending: false });
 
     if (error) throw error;
     res.json({ data });

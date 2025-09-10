@@ -109,15 +109,9 @@
 											<label for="session-week-number">Week Number</label>
 											<input type="number" id="session-week-number" class="form-input" placeholder="Enter week number" required>
 										</div>
-										<div class="form-row">
-											<div class="form-group">
-												<label for="publish-date">Publish Date</label>
-												<input type="date" id="publish-date" class="form-input" required>
-											</div>
-											<div class="form-group">
-												<label for="close-date">Close Date</label>
-												<input type="date" id="close-date" class="form-input" required>
-											</div>
+										<div class="form-group">
+											<label for="publish-date">Publish Date</label>
+											<input type="date" id="publish-date" class="form-input" required>
 										</div>
 									</div>
 									<div class="form-column">
@@ -284,12 +278,17 @@
 		&lt?&gt
 	 </div>
 
+	<!-- DARK MODE AND SIDE PANEL BUTTONS -->
 	<script type="text/javascript" src="../js/toggle.js"></script>
+	<!-- EDIT BUTTON (?) AND SEARCH FEATURE -->
 	<script type="text/javascript" src="../js/edit.js"></script>
+	<!-- SUBMITS SESSION DETAILS FROM MODAL TO BACKEND -->
 	<script type="module" src="../js/submitSession.js"></script>
+	<!-- FOR  main-register TABLE: DISPLAY LIST OF STUDENTS-->
 	<script type="module" src="../js/studentsTable.js"></script>
+	<!-- FOR main-session: DISPLAY LIST OF SESSIONS FROM BACKEND -->
 	<script type="module" src="../js/sessionCards.js"></script>
-	<!-- in admin.html -->
+	<!-- EXPORTS TABLE TO PDF -->
 	<script type="module" src="../js/exportPdf.js"></script>
 </body>
 </html>

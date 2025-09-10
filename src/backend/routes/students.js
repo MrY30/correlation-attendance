@@ -4,8 +4,6 @@ import { supabaseAdmin } from '../lib/supabaseClient.js';
 
 const router = Router();
 
-// const student_profile = 'student_profile';
-
 const student_profile = 'deployed_student_profile';
 
 /**

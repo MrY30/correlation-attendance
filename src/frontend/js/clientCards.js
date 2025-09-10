@@ -23,6 +23,37 @@ function formatDateTime(iso) {
   }
 }
 
+function formatDateOnly(isoDate) {
+  if (!isoDate) return '—';
+  try {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      timeZone: 'Asia/Manila'
+    }).format(new Date(isoDate));
+  } catch {
+    return isoDate;
+  }
+}
+
+function formatTime(timeStr) {
+  if (!timeStr) return '—';
+  try {
+    const [h, m, s] = timeStr.split(':').map(Number);
+    const date = new Date();
+    date.setHours(h, m, s || 0);
+    return new Intl.DateTimeFormat('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+      timeZone: 'Asia/Manila'
+    }).format(date);
+  } catch {
+    return timeStr;
+  }
+}
+
 function computeStatus(openIso, closeIso) {
   if (!openIso || !closeIso) return { isActive: false, display: 'Closed' };
   const now = Date.now();
@@ -33,35 +64,71 @@ function computeStatus(openIso, closeIso) {
   return { isActive, display: isActive ? 'Active' : 'Closed' };
 }
 
-function createSessionCard(session) {
-  const publishDisplay = formatDateTime(session.open_date);
-  const closeDisplay = formatDateTime(session.close_date);
-  const { isActive, display } = computeStatus(session.open_date, session.close_date);
+function createSessionCards(session) {
+  const cards = [];
+
+  // --- Weekly Exam ---
+  cards.push(makeCard({
+    title: `Weekly Exam`,
+    subtitle: `${session.session_name}`,
+    id: `${session.session_id}`,
+    dateLabel: formatDateOnly(session.publish_date),
+    openIso: `${session.publish_date}T${session.weekly_start}`,
+    closeIso: `${session.publish_date}T${session.weekly_end}`,
+    displayTimes: `${formatTime(session.weekly_start)} → ${formatTime(session.weekly_end)}`
+  }));
+
+  // --- AM Session ---
+  cards.push(makeCard({
+    title: `AM Session`,
+    subtitle: `${session.session_name}`,
+    id: `${session.session_id}`,
+    dateLabel: formatDateOnly(session.publish_date),
+    openIso: `${session.publish_date}T${session.am_start}`,
+    closeIso: `${session.publish_date}T${session.am_end}`,
+    displayTimes: `${formatTime(session.am_start)} → ${formatTime(session.am_end)}`
+  }));
+
+  // --- PM Session ---
+  cards.push(makeCard({
+    title: `PM Session`,
+    subtitle: `${session.session_name}`,
+    id: `${session.session_id}`,
+    dateLabel: formatDateOnly(session.publish_date),
+    openIso: `${session.publish_date}T${session.pm_start}`,
+    closeIso: `${session.publish_date}T${session.pm_end}`,
+    displayTimes: `${formatTime(session.pm_start)} → ${formatTime(session.pm_end)}`
+  }));
+
+  return cards;
+}
+
+function makeCard({ title, subtitle, id, dateLabel, openIso, closeIso, displayTimes }) {
+  const { isActive, display } = computeStatus(openIso, closeIso);
   const statusClass = isActive ? 'status-active' : 'status-closed';
 
   const card = document.createElement('div');
   card.className = 'session-card';
-  card.dataset.sessionName = session.session_name ?? '';
-  card.dataset.sessionId = session.session_id ?? '';
-  card.dataset.publishDate = publishDisplay;
-  card.dataset.closeDate = closeDisplay;
-  card.dataset.openIso = session.open_date ?? '';
-  card.dataset.closeIso = session.close_date ?? '';
+  card.dataset.sessionName = title;
+  card.dataset.subtitle = subtitle;
+  card.dataset.sessionId = id;
+  card.dataset.openIso = openIso;
+  card.dataset.closeIso = closeIso;
   card.dataset.status = display;
 
   card.innerHTML = `
     <div class="session-card-header">
-      <h3>${session.session_name ?? 'Untitled Session'}</h3>
-      <span class="session-id">ID: ${session.session_id ?? '—'}</span>
+      <h3>${title}</h3>
+      <span class="session-id">${subtitle}</span>
     </div>
     <div class="session-card-body">
       <div class="session-info">
-        <i class='bx bx-calendar'></i>
-        <span>Published: ${publishDisplay}</span>
+          <i class='bx bx bx-calendar'></i>
+          <span class="publish-date">DATE: ${dateLabel}</span>
       </div>
       <div class="session-info">
-        <i class='bx bx-time-five'></i>
-        <span>Closes: ${closeDisplay}</span>
+        <i class='bx bx-clock-3'></i>
+        <span>${displayTimes}</span>
       </div>
     </div>
     <div class="session-card-footer">
@@ -74,29 +141,26 @@ function createSessionCard(session) {
 
 async function renderSessions() {
   if (!grid) return;
-  // Save the "Add Session" card so we can re-append it
+
   const addCard = grid.querySelector('#add-session-btn');
   grid.innerHTML = '';
-  
-  try {
-    const sessions = await fetchSessions();
-    // Filter the sessions array to only include active ones
-    const activeSessions = sessions.filter(sess => 
-      computeStatus(sess.open_date, sess.close_date).isActive
-    );
 
-    if (activeSessions.length === 0) {
-      grid.innerHTML = '<div class="empty">No active sessions found.</div>';
+  try {
+    const res = await fetchSessions();
+    const sessions = res?.data ?? res ?? [];
+
+    if (sessions.length === 0) {
+      grid.innerHTML = '<div class="empty">No sessions found.</div>';
     } else {
       const fragment = document.createDocumentFragment();
-      // Now, we only iterate over the active sessions
-      activeSessions.forEach(sess => fragment.appendChild(createSessionCard(sess)));
+      sessions.forEach(sess => {
+        const cards = createSessionCards(sess);
+        cards.forEach(c => fragment.appendChild(c));
+      });
       grid.appendChild(fragment);
     }
 
-    // Re-append the "Add Session" card at the end
     if (addCard) grid.appendChild(addCard);
-
   } catch (err) {
     console.error('renderSessions error', err);
     grid.innerHTML = `<div class="error">Failed to load sessions.</div>`;
