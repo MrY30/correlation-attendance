@@ -6,6 +6,7 @@ const router = Router();
 
 const student_profile = 'deployed_student_profile';
 const attendance_logs = 'attendance_logs_v2';
+const bucket_name = 'student-signatures';
 
 // POST /api/attendance/scan
 router.post('/scan', async (req, res) => {
@@ -36,7 +37,7 @@ router.post('/scan', async (req, res) => {
     // Step 2: Check for signature in storage
     const signaturePath = `${student.school_id}.png`;
     const { data: fileList, error: listError } = await storage
-      .from('correlation-attendance')
+      .from(bucket_name)
       .list('', { search: signaturePath }); // look for <school_id>.png
 
     if (listError) {

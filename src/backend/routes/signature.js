@@ -5,6 +5,7 @@ import { storage, supabaseAdmin } from '../lib/supabaseClient.js';
 const router = Router();
 
 const attendance_logs = 'attendance_logs_v2';
+const bucket_name = 'student-signatures';
 
 router.post('/save', async (req, res) => {
   try {
@@ -25,7 +26,7 @@ router.post('/save', async (req, res) => {
     const filePath = `${schoolId}.png`;
 
     const { error: uploadError } = await storage
-      .from('student-signatures')
+      .from(bucket_name)
       .upload(filePath, buffer, {
         contentType: 'image/png',
         upsert: true,
