@@ -25,7 +25,7 @@ router.post('/save', async (req, res) => {
     const filePath = `${schoolId}.png`;
 
     const { error: uploadError } = await storage
-      .from('correlation-attendance')
+      .from('student-signatures')
       .upload(filePath, buffer, {
         contentType: 'image/png',
         upsert: true,
