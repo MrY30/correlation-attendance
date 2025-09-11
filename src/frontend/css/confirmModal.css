@@ -1,0 +1,44 @@
+/* Confirm modal */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.45);
+  z-index: 9999;
+}
+.confirm-overlay.hidden { display: none; }
+
+.confirm-modal {
+  background: var(--header-color);
+  padding: 18px;
+  border-radius: 8px;
+  min-width: 320px;
+  max-width: 90%;
+  box-shadow: 0 12px 40px rgba(2,6,23,0.2);
+}
+.confirm-modal h3 { margin: 0 0 8px 0; font-size: 1.05rem; }
+.confirm-modal p { margin: 0; color: var(--font-color); }
+
+.confirm-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.confirm-buttons .btn {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+.confirm-yes {
+  background: var(--close-button-color);
+  color: var(--font-color);
+}
+.confirm-no {
+  background: var(--header-border);
+  color: var(--font-color);
+}

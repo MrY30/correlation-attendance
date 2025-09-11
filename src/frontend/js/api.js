@@ -22,6 +22,48 @@ export async function addSession(session) {
   return res.json();
 }
 
+export async function updateSession(sessionId, data) {
+  const res = await fetch(`/api/sessions/${encodeURIComponent(sessionId)}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+
+  const text = await res.text();
+  let json = null;
+  try {
+    json = text ? JSON.parse(text) : null;
+  } catch (e) {
+    // Not JSON, leave json as null but keep the raw text for error messages
+  }
+
+  if (!res.ok) {
+    const errMsg = (json && (json.error || json.message)) || text || 'Failed to update session';
+    throw new Error(errMsg);
+  }
+
+  // Return parsed JSON if any, otherwise null (server might return 204 No Content)
+  return json;
+}
+
+export async function deleteSession(sessionId) {
+  if (!sessionId) throw new Error('Missing sessionId');
+  const res = await fetch(`/api/sessions/${encodeURIComponent(sessionId)}`, {
+    method: 'DELETE'
+  });
+
+  const text = await res.text();
+  let json = null;
+  try { json = text ? JSON.parse(text) : null; } catch (e) { /* ignore */ }
+
+  if (!res.ok) {
+    const msg = (json && (json.error || json.message)) || text || 'Failed to delete session';
+    throw new Error(msg);
+  }
+
+  return json;
+}
+
 export async function fetchSessions() {
   const res = await fetch('/api/sessions');
   if (!res.ok) {

@@ -361,3 +361,28 @@
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
 }
+
+/* make readonly inputs visually distinct, but still selectable */
+input[readonly] {
+  background-color: var(--background-color); /* subtle gray */
+  border: 2px solid var(--header-border);
+  color: #868686;
+}
+
+/* disabled button appearance — works when button has disabled attribute or .disabled class */
+#session-edit-btn[disabled],
+#session-edit-btn.disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+  /* change background and text color to suggest disabled state */
+  background: linear-gradient(180deg,#e6e9ec,#cfd6db);
+  color: #6b7280;
+  border: 1px solid #c0c6cc;
+}
+
+/* Optional: smooth transition when enabling/disabling */
+#session-edit-btn {
+  transition: opacity 120ms ease, transform 120ms ease;
+}

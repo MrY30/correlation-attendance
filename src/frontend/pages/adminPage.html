@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="../css/main-session.css">
 	<link rel="stylesheet" href="../css/main-session-information.css">
 	<link rel="stylesheet" href="../css/switch.css">
+	<link rel="stylesheet" href="../css/confirmModal.css">
 	<link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 
 	<!-- FONTS -->
@@ -86,7 +87,7 @@
 					</div>
 				</div>
 
-				<!-- Popup Modal -->
+				<!-- Popup Modal for Add Session -->
 				<div class="popup-overlay hidden" id="popup-overlay">
 					<div class="popup-modal">
 						<div class="popup-header">
@@ -187,57 +188,97 @@
 						</div>
 					</div>
 				</div>
-            </div>
-			<div class="main-session-information hidden">
-				<div class="session-info-container">
-					<div class="session-info-header">
-						<div class="back-button" id="back-to-sessions">
-							<i class='bx bx-arrow-back'></i>
-							<span>Back to Sessions</span>
+
+				<!-- Popup Modal for Edit Session -->
+				<div class="popup-overlay hidden" id="popup-overlay-edit">
+					<div class="popup-modal">
+						<div class="popup-header">
+							<h2>Edit Session</h2>
+							<i class='bx bx-x popup-close' id="popup-close-edit"></i>
 						</div>
-					</div>
-					<div class="session-details-card">
-						<div class="session-details-header">
-							<h2 id="session-detail-name">Mathematics Quiz</h2>
-							<span class="session-detail-id" id="session-detail-id">ID: SESS-001</span>
-						</div>
-						<div class="session-details-body">
-							<div class="detail-row">
-								<div class="detail-item">
-									<i class='bx bx-calendar'></i>
-									<div class="detail-content">
-										<span class="detail-label">Published</span>
-										<span class="detail-value" id="session-detail-publish">Dec 15, 2024 09:00 AM</span>
+						<div class="popup-body">
+							<form class="session-form" id="edit-session-form">
+								<div class="form-main-content">
+									<div class="form-column">
+										<div class="form-group">
+											<label for="session-id">Session ID</label>
+											<input type="text" id="session-id-edit" class="form-input" placeholder="Enter session ID" required>
+										</div>
+										<div class="form-group">
+											<label for="session-name">Session Name</label>
+											<input type="text" id="session-name-edit" class="form-input" placeholder="Enter session name" required>
+										</div>
+										<div class="form-group">
+											<label for="publish-date">Publish Date</label>
+											<input type="date" id="publish-date-edit" class="form-input" required>
+										</div>
+									</div>
+									<div class="form-column">
+										<div class="form-section">
+											<h4 class="form-section-label">Weekly Exam</h4>
+											<div class="form-row-three">
+												<div class="form-group">
+													<label for="publish-time">Start Time</label>
+													<input type="time" id="weekly-start-time-edit" class="form-input" required>
+												</div>
+												<div class="form-group">
+													<label for="publish-time">Late Time</label>
+													<input type="time" id="weekly-late-time-edit" class="form-input" required>
+												</div>
+												<div class="form-group">
+													<label for="close-time">End Time</label>
+													<input type="time" id="weekly-end-time-edit" class="form-input" required>
+												</div>
+											</div>
+										</div>
+										
+										<div class="form-section">
+											<h4 class="form-section-label">AM Session</h4>
+											<div class="form-row-three">
+												<div class="form-group">
+													<label for="publish-time">Start Time</label>
+													<input type="time" id="am-start-time-edit" class="form-input" required>
+												</div>
+												<div class="form-group">
+													<label for="publish-time">Late Time</label>
+													<input type="time" id="am-late-time-edit" class="form-input" required>
+												</div>
+												<div class="form-group">
+													<label for="close-time">End Time</label>
+													<input type="time" id="am-end-time-edit" class="form-input" required>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-section">
+											<h4 class="form-section-label">PM Session</h4>
+											<div class="form-row-three">
+												<div class="form-group">
+													<label for="publish-time">Start Time</label>
+													<input type="time" id="pm-start-time-edit" class="form-input" required>
+												</div>
+												<div class="form-group">
+													<label for="publish-time">Late Time</label>
+													<input type="time" id="pm-late-time-edit" class="form-input" required>
+												</div>
+												<div class="form-group">
+													<label for="close-time">End Time</label>
+													<input type="time" id="pm-end-time-edit" class="form-input" required>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
-								<div class="detail-item">
-									<i class='bx bx-time-five'></i>
-									<div class="detail-content">
-										<span class="detail-label">Closes</span>
-										<span class="detail-value" id="session-detail-close">Dec 20, 2024 11:59 PM</span>
+								<div class="form-bottom-content">
+									<div class="form-actions">
+										<button type="submit" class="btn-add" id="session-edit-btn">Save Changes</button>
 									</div>
 								</div>
-							</div>
-							<div class="detail-row">
-								<div class="detail-item">
-									<i class='bx bx-check-circle'></i>
-									<div class="detail-content">
-										<span class="detail-label">Status</span>
-										<span class="detail-value" id="session-detail-status">Active</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="session-table-area">
-						<div class="session-table-header">
-							<h3>Attendance Logs</h3>
-							<div class="pdf-export">
-								<span>📝 Export to PDF</span>
-							</div>
+							</form>
 						</div>
 					</div>
 				</div>
+
             </div>
 			<div class="main-register">
 				<div class="main-search-area">
@@ -281,7 +322,7 @@
 	<!-- DARK MODE AND SIDE PANEL BUTTONS -->
 	<script type="text/javascript" src="../js/toggle.js"></script>
 	<!-- EDIT BUTTON (?) AND SEARCH FEATURE -->
-	<script type="text/javascript" src="../js/edit.js"></script>
+	<script type="module" src="../js/editSession.js"></script>
 	<!-- SUBMITS SESSION DETAILS FROM MODAL TO BACKEND -->
 	<script type="module" src="../js/submitSession.js"></script>
 	<!-- FOR  main-register TABLE: DISPLAY LIST OF STUDENTS-->
@@ -290,5 +331,7 @@
 	<script type="module" src="../js/sessionCards.js"></script>
 	<!-- EXPORTS TABLE TO PDF -->
 	<script type="module" src="../js/exportPdf.js"></script>
+	<!-- DELETE A SESSION -->
+	<script type="module" src="../js/deleteSession.js"></script>
 </body>
 </html>

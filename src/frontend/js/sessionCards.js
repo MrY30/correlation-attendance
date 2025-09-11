@@ -75,8 +75,20 @@ function createSessionCard(session) {
   card.className = 'session-card';
   card.dataset.sessionName = session.session_name ?? '';
   card.dataset.sessionId = session.session_id ?? '';
-  card.dataset.publishDate = publishDisplay;
-  card.dataset.closeDate = closeDisplay;
+  card.dataset.publishDate = session.publish_date;
+
+  card.dataset.weeklyStart = session.weekly_start;
+  card.dataset.weeklyLate = session.weekly_late;
+  card.dataset.weeklyEnd = session.weekly_end;
+
+  card.dataset.amStart = session.am_start;
+  card.dataset.amLate = session.am_late;
+  card.dataset.amEnd = session.am_end;
+
+  card.dataset.pmStart = session.pm_start;
+  card.dataset.pmLate = session.pm_late;
+  card.dataset.pmEnd = session.pm_end;
+  
   card.dataset.openIso = openIso;
   card.dataset.closeIso = closeIso;
   card.dataset.status = display;

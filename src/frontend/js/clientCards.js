@@ -67,38 +67,45 @@ function computeStatus(openIso, closeIso) {
 function createSessionCards(session) {
   const cards = [];
 
-  // --- Weekly Exam ---
-  cards.push(makeCard({
-    title: `Weekly Exam`,
-    subtitle: `${session.session_name}`,
-    id: `${session.session_id}`,
-    dateLabel: formatDateOnly(session.publish_date),
-    openIso: `${session.publish_date}T${session.weekly_start}`,
-    closeIso: `${session.publish_date}T${session.weekly_end}`,
-    displayTimes: `${formatTime(session.weekly_start)} → ${formatTime(session.weekly_end)}`
-  }));
+  const defs = [
+    { // WEEKLY EXAM
+      title: `Weekly Exam`,
+      subtitle: `${session.session_name}`,
+      id: `${session.session_id}`,
+      dateLabel: formatDateOnly(session.publish_date),
+      openIso: `${session.publish_date}T${session.weekly_start}`,
+      closeIso: `${session.publish_date}T${session.weekly_end}`,
+      displayTimes: `${formatTime(session.weekly_start)} → ${formatTime(session.weekly_end)}`
+    },
+    { // AM SESSION
+      title: `AM Session`,
+      subtitle: `${session.session_name}`,
+      id: `${session.session_id}`,
+      dateLabel: formatDateOnly(session.publish_date),
+      openIso: `${session.publish_date}T${session.am_start}`,
+      closeIso: `${session.publish_date}T${session.am_end}`,
+      displayTimes: `${formatTime(session.am_start)} → ${formatTime(session.am_end)}`
+    },
+    { // PM SESSION
+      title: `PM Session`,
+      subtitle: `${session.session_name}`,
+      id: `${session.session_id}`,
+      dateLabel: formatDateOnly(session.publish_date),
+      openIso: `${session.publish_date}T${session.pm_start}`,
+      closeIso: `${session.publish_date}T${session.pm_end}`,
+      displayTimes: `${formatTime(session.pm_start)} → ${formatTime(session.pm_end)}`
+    }
+  ];
 
-  // --- AM Session ---
-  cards.push(makeCard({
-    title: `AM Session`,
-    subtitle: `${session.session_name}`,
-    id: `${session.session_id}`,
-    dateLabel: formatDateOnly(session.publish_date),
-    openIso: `${session.publish_date}T${session.am_start}`,
-    closeIso: `${session.publish_date}T${session.am_end}`,
-    displayTimes: `${formatTime(session.am_start)} → ${formatTime(session.am_end)}`
-  }));
-
-  // --- PM Session ---
-  cards.push(makeCard({
-    title: `PM Session`,
-    subtitle: `${session.session_name}`,
-    id: `${session.session_id}`,
-    dateLabel: formatDateOnly(session.publish_date),
-    openIso: `${session.publish_date}T${session.pm_start}`,
-    closeIso: `${session.publish_date}T${session.pm_end}`,
-    displayTimes: `${formatTime(session.pm_start)} → ${formatTime(session.pm_end)}`
-  }));
+  defs.forEach(def => {
+    const { isActive } = computeStatus(def.openIso, def.closeIso);
+    if (isActive) {
+      cards.push(makeCard({
+        ...def,
+        dateLabel: formatDateOnly(session.publish_date)
+      }));
+    }
+  });
 
   return cards;
 }
@@ -149,14 +156,15 @@ async function renderSessions() {
     const res = await fetchSessions();
     const sessions = res?.data ?? res ?? [];
 
-    if (sessions.length === 0) {
-      grid.innerHTML = '<div class="empty">No sessions found.</div>';
+    const fragment = document.createDocumentFragment();
+    sessions.forEach(sess => {
+      const cards = createSessionCards(sess); // only active cards returned
+      cards.forEach(c => fragment.appendChild(c));
+    });
+
+    if (fragment.children.length === 0) {
+      grid.innerHTML = '<div class="empty">No active sessions found.</div>';
     } else {
-      const fragment = document.createDocumentFragment();
-      sessions.forEach(sess => {
-        const cards = createSessionCards(sess);
-        cards.forEach(c => fragment.appendChild(c));
-      });
       grid.appendChild(fragment);
     }
 

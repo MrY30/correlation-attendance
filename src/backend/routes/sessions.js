@@ -125,5 +125,100 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Update an existing session
+router.put('/:id', async (req, res) => {
+  try {
+    const sessionId = req.params.id;
+    const {
+      session_name,
+      publish_date,
+      weekly_start,
+      weekly_late,
+      weekly_end,
+      am_start,
+      am_late,
+      am_end,
+      pm_start,
+      pm_late,
+      pm_end
+    } = req.body;
+
+    // Validate
+    if (
+      !session_name ||
+      !publish_date ||
+      !weekly_start ||
+      !weekly_late ||
+      !weekly_end ||
+      !am_start ||
+      !am_late ||
+      !am_end ||
+      !pm_start ||
+      !pm_late ||
+      !pm_end
+    ) {
+      return res.status(400).json({ error: 'Missing required session data.' });
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from(sessions)
+      .update({
+        session_name,
+        publish_date,
+        weekly_start,
+        weekly_late,
+        weekly_end,
+        am_start,
+        am_late,
+        am_end,
+        pm_start,
+        pm_late,
+        pm_end
+      })
+      .eq('session_id', sessionId) // condition
+      .select()
+      .single();
+
+    if (error) throw error;
+    if (!data) return res.status(404).json({ error: 'Session not found' });
+
+    res.json({ success: true, data });
+  } catch (err) {
+    console.error('Failed to update session:', err);
+    res.status(500).json({ error: 'Failed to update session' });
+  }
+});
+
+// Delete a session and its attendance logs
+router.delete('/:id', async (req, res) => {
+  try {
+    const sessionId = req.params.id;
+    if (!sessionId) return res.status(400).json({ error: 'Missing session id' });
+
+    // FIRST: delete related attendance logs (avoid FK constraint issues)
+    const { error: delAttendanceError } = await supabaseAdmin
+      .from(attendance_logs)
+      .delete()
+      .eq('session_id', sessionId);
+
+    if (delAttendanceError) throw delAttendanceError;
+
+    // THEN: delete the session itself
+    const { data, error: delSessionError } = await supabaseAdmin
+      .from(sessions)
+      .delete()
+      .eq('session_id', sessionId)
+      .select()
+      .single();
+
+    if (delSessionError) throw delSessionError;
+    if (!data) return res.status(404).json({ error: 'Session not found' });
+
+    res.json({ success: true, data });
+  } catch (err) {
+    console.error('Failed to delete session:', err);
+    res.status(500).json({ error: err.message || 'Failed to delete session' });
+  }
+});
 
 export default router;
