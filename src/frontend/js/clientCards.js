@@ -54,6 +54,25 @@ function formatTime(timeStr) {
   }
 }
 
+function formatTimeOnly(timeStr) {
+  if (!timeStr) return '—';
+  try {
+    // Extract time portion from ISO string (format: 2025-09-11T13:22:00)
+    const timeOnly = timeStr.includes('T') ? timeStr.split('T')[1] : timeStr;
+    const [h, m, s] = timeOnly.split(':').map(Number);
+    const date = new Date();
+    date.setHours(h, m, s || 0);
+    return new Intl.DateTimeFormat('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+      timeZone: 'Asia/Manila'
+    }).format(date);
+  } catch {
+    return timeStr;
+  }
+}
+
 function computeStatus(openIso, closeIso) {
   if (!openIso || !closeIso) return { isActive: false, display: 'Closed' };
   const now = Date.now();
@@ -70,6 +89,7 @@ function createSessionCards(session) {
   const defs = [
     { // WEEKLY EXAM
       title: `Weekly Exam`,
+      titleStatus: 'exam_status',
       subtitle: `${session.session_name}`,
       id: `${session.session_id}`,
       dateLabel: formatDateOnly(session.publish_date),
@@ -79,6 +99,7 @@ function createSessionCards(session) {
     },
     { // AM SESSION
       title: `AM Session`,
+      titleStatus: 'am_status',
       subtitle: `${session.session_name}`,
       id: `${session.session_id}`,
       dateLabel: formatDateOnly(session.publish_date),
@@ -88,6 +109,7 @@ function createSessionCards(session) {
     },
     { // PM SESSION
       title: `PM Session`,
+      titleStatus: 'pm_status',
       subtitle: `${session.session_name}`,
       id: `${session.session_id}`,
       dateLabel: formatDateOnly(session.publish_date),
@@ -110,13 +132,14 @@ function createSessionCards(session) {
   return cards;
 }
 
-function makeCard({ title, subtitle, id, dateLabel, openIso, closeIso, displayTimes }) {
+function makeCard({ title, titleStatus, subtitle, id, dateLabel, openIso, closeIso, displayTimes }) {
   const { isActive, display } = computeStatus(openIso, closeIso);
   const statusClass = isActive ? 'status-active' : 'status-closed';
 
   const card = document.createElement('div');
   card.className = 'session-card';
   card.dataset.sessionName = title;
+  card.dataset.titleStatus = titleStatus;
   card.dataset.subtitle = subtitle;
   card.dataset.sessionId = id;
   card.dataset.openIso = openIso;
@@ -206,13 +229,14 @@ function setupUIInteractions() {
 
     if (card) {
       // 1. Get data from the card's data-* attributes
-      const { sessionName, sessionId, publishDate, closeDate } = card.dataset;
+      const { titleStatus, sessionName, sessionId, openIso, closeIso } = card.dataset;
 
       // 2. Populate the attendance reader header
       document.getElementById('session-title').textContent = sessionName;
       document.getElementById('session-id').textContent = `ID: ${sessionId}`;
       document.getElementById('session-id').dataset.session = sessionId;
-      document.getElementById('session-date').textContent = `${publishDate} - ${closeDate}`;
+      document.getElementById('session-id').dataset.titleStatus = titleStatus;
+      document.getElementById('session-date').textContent = `${formatTimeOnly(openIso)} - ${formatTimeOnly(closeIso)}`;
 
       // 3. Switch the view
       mainSessionView.classList.add('hidden');

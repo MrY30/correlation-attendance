@@ -1,5 +1,5 @@
 import { scanAttendance } from './api.js';
-
+import { openSignatureModal } from './signatureHandler.js';
 
 // one global timer so every new scan resets it
 let inactivityTimer = null;
@@ -70,11 +70,12 @@ async function processStudentId(rfidCode) {
     // Example: assume you know current sessionId from global or dataset
     const sessionCard = document.getElementById("session-id")
     const sessionId = sessionCard.dataset.session;
+    const statusColumn = sessionCard.dataset.titleStatus;
 
-    const result = await scanAttendance(rfidCode, sessionId);
+    const result = await scanAttendance(rfidCode, sessionId, statusColumn);
 
     if (result.status === 'not-found') {
-    //   alert("Student Not Found")
+        // alert("Student Not Found")
         notFound();
         return;
     }
@@ -82,6 +83,18 @@ async function processStudentId(rfidCode) {
     if (result.status === 'already-attended') {
       displayStudentInfo(result.student);
       showAttendanceMessage('already-attended');
+      return;
+    }
+    
+    if (result.status === 'sign-first') {
+      displayStudentInfo(result.student);
+      showAttendanceMessage('sign-first');
+
+      const sessionCard = document.getElementById("session-id");
+      const sessionId = sessionCard.dataset.session;
+      const statusColumn = sessionCard.dataset.titleStatus;
+
+      openSignatureModal(result.student, sessionId, statusColumn);
       return;
     }
 
@@ -137,6 +150,9 @@ function showAttendanceMessage(status) {
   } else if (status === 'error') {
     messageElement.className = 'attendance-status status-error';
     messageElement.innerHTML = '<i class="bx bx-error"></i> Error processing attendance';
+  } else if (status === 'sign-first') {
+    messageElement.className = 'attendance-status status-not-found';
+    messageElement.innerHTML = '<i class="bx bx-error"></i> Please sign to Continue';
   }
 }
 

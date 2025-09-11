@@ -7,6 +7,7 @@ import studentsRouter from './routes/students.js';
 import sessionsRouter from './routes/sessions.js';
 import attendanceRoutes from './routes/attendance.js';
 import reportsRoutes from './routes/reports.js';
+import signatureRoutes from './routes/signature.js';
 
 import cors from 'cors';
 
@@ -35,6 +36,7 @@ app.use('/api/students', studentsRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/reports', reportsRoutes);
+app.use('/api/signature', signatureRoutes);
 
 // Start server
 app.listen(3000,() => { 

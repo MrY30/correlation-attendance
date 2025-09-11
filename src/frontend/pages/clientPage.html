@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/layout.css">
 	<link rel="stylesheet" href="../css/main-session.css">
 	<link rel="stylesheet" href="../css/attendance-reader.css">
+	<link rel="stylesheet" href="../css/signature-handler.css">
 	<link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 
 	<!-- FONTS -->
@@ -135,15 +136,52 @@
         </div>
 	</section>
 
+	<!-- Add this signature modal HTML right before the closing </body> tag in your clientPage.html -->
+
+	<!-- Signature Modal -->
+	<div class="signature-overlay hidden" id="signature-overlay">
+		<div class="signature-modal">
+			<div class="signature-header">
+				<h2>Digital Signature Required</h2>
+				<button class="signature-close">
+					<i class='bx bx-x' id="btn-cancel"></i>
+				</button>
+			</div>
+			<div class="signature-body">
+				<p class="signature-instruction">
+					Please sign in the canvas below using your mouse or touch device.<br>
+					Your signature will be used to confirm your attendance.
+				</p>
+				
+				<div class="canvas-container">
+					<canvas class="signature-canvas" id="signature-canvas" width="500" height="200"></canvas>
+					<div class="canvas-placeholder" id="canvas-placeholder">
+						Click and drag to sign here
+					</div>
+				</div>
+				
+				<div class="signature-actions">
+					<button class="btn-signature btn-reset" id="btn-reset">Reset</button>
+					<button class="btn-signature btn-submit" id="btn-submit">Submit Signature</button>
+				</div>
+				
+				<div class="signature-success" id="signature-success">
+					<i class='bx bx-check-circle'></i>
+					Signature submitted successfully! Attendance recorded.
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- ALL RIGHTS RESERVED -->
 	 <div class="footer">
 		&lt?&gt
 	 </div>
 
 	<script type="text/javascript" src="../js/toggleClient.js"></script>
-	<!-- <script type="text/javascript" src="../js/client.js"></script> -->
 	<script type="module" src="../js/clientCards.js"></script>
-	<script type="module" src="../js/processId.js"></script>
 	<script type="module" src="../js/scanRFID.js"></script>
+	<!-- Also add this script tag before the closing </body> tag -->
+	<script type="module" src="../js/signatureHandler.js"></script>
 </body>
 </html>

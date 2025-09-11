@@ -1,0 +1,258 @@
+/* ===== SIGNATURE MODAL STYLES ===== */
+/* Add these styles to your attendance-reader.css file */
+
+/* Signature Modal Overlay */
+.signature-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    transition: all 0.3s ease;
+}
+
+.signature-overlay.hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Signature Modal Container */
+.signature-modal {
+    background: var(--header-color);
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    overflow: hidden;
+}
+
+.signature-overlay:not(.hidden) .signature-modal {
+    transform: scale(1);
+}
+
+/* Modal Header */
+.signature-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 2px solid var(--header-border);
+    background: var(--header-color);
+}
+
+.signature-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--font-color);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.signature-close {
+    font-size: 1.5rem;
+    padding: 0.3rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--font-color);
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.signature-close:hover {
+    background: var(--close-button-color);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Modal Body */
+.signature-body {
+    padding: 2rem;
+    text-align: center;
+}
+
+.signature-instruction {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+    line-height: 1.5;
+}
+
+/* Canvas Container */
+.canvas-container {
+    position: relative;
+    background: white;
+    border-radius: 0.8rem;
+    border: 3px solid var(--card-color);
+    margin-bottom: 2rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px;
+    overflow: hidden;
+}
+
+.signature-canvas {
+    display: block;
+    cursor: crosshair;
+    touch-action: none;
+    width: 100%;
+    height: 200px;
+}
+
+.canvas-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #999;
+    font-size: 1rem;
+    pointer-events: none;
+    opacity: 0.6;
+    font-style: italic;
+}
+
+.canvas-placeholder.hidden {
+    opacity: 0;
+}
+
+/* Action Buttons */
+.signature-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-signature {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.btn-reset {
+    background: var(--warning-color);
+    color: white;
+}
+
+.btn-reset:hover {
+    background: #e68900;
+    transform: translateY(-2px);
+}
+
+.btn-submit {
+    background: var(--card-color);
+    color: var(--font-color-dark);
+}
+
+.btn-submit:hover {
+    background: var(--card-hover);
+    transform: translateY(-2px);
+}
+
+.btn-cancel {
+    background: var(--header-border);
+    color: var(--font-color);
+}
+
+.btn-cancel:hover {
+    background: var(--icon-hover);
+    transform: translateY(-2px);
+}
+
+/* Success Message */
+.signature-success {
+    background: rgba(76, 175, 80, 0.2);
+    border: 2px solid var(--success-color);
+    color: var(--success-color);
+    padding: 1rem;
+    border-radius: 0.8rem;
+    margin-top: 1rem;
+    font-weight: 600;
+    display: none;
+}
+
+.signature-success.show {
+    display: block;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Add a signature button to the attendance status */
+.attendance-status .signature-prompt {
+    margin-top: 1rem;
+}
+
+.btn-open-signature {
+    background: var(--info-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+}
+
+.btn-open-signature:hover {
+    background: #1976d2;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design for Signature Modal */
+@media (max-width: 768px) {
+    .signature-modal {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .signature-actions {
+        flex-direction: column;
+    }
+    
+    .btn-signature {
+        width: 100%;
+    }
+    
+    .signature-header {
+        padding: 1rem 1.5rem;
+    }
+    
+    .signature-body {
+        padding: 1.5rem;
+    }
+    
+    .signature-canvas {
+        height: 150px;
+    }
+}

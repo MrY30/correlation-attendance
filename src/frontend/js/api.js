@@ -74,11 +74,11 @@ export async function fetchSessions() {
   return body.data || [];
 }
 
-export async function scanAttendance(rfidCode, sessionId) {
+export async function scanAttendance(rfidCode, sessionId, statusColumn) {
   const res = await fetch('/api/attendance/scan', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ rfidCode, sessionId })
+    body: JSON.stringify({ rfidCode, sessionId, statusColumn })
   });
 
   if (!res.ok) throw new Error('Network error');
@@ -93,3 +93,17 @@ export async function fetchAttendanceData(sessionId) {
   }
   return res.json(); // { session, logs }
 }
+
+// src/frontend/api.js
+export async function saveSignature(schoolId, sessionId, statusColumn, signature) {
+  const res = await fetch('/api/signature/save', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ schoolId, sessionId, statusColumn, signature }),
+  });
+
+  if (!res.ok) throw new Error('Network error');
+  return res.json();
+}
+
+
