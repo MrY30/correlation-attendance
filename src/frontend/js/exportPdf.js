@@ -180,6 +180,65 @@ async function generatePdfForSession(sessionId, type = 'weekly') {
   doc.save(filename);
 }
 
+async function generateExcelForSession(sessionId) {
+  const { session, logs } = await fetchAttendanceData(sessionId);
+
+  // Create workbook and worksheet
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet(`${session.session_name}`);
+
+  // Define header row
+  worksheet.columns = [
+    { header: 'Student ID', key: 'student_id', width: 15 },
+    { header: 'Student Name', key: 'student_name', width: 25 },
+    { header: 'Exam Status', key: 'exam_status', width: 15 },
+    { header: 'AM Status', key: 'am_status', width: 15 },
+    { header: 'PM Status', key: 'pm_status', width: 15 },
+  ];
+
+  // Add rows
+  logs.forEach(r => {
+    worksheet.addRow({
+      student_id: r.student_id,
+      student_name: r.student_name,
+      exam_status: r.exam_status ?? '',
+      am_status: r.am_status ?? '',
+      pm_status: r.pm_status ?? '',
+    });
+  });
+
+  // Style header row
+  worksheet.getRow(1).eachCell(cell => {
+    cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    cell.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FF28313B' } // dark gray like your PDF header
+    };
+    cell.alignment = { vertical: 'middle', horizontal: 'center' };
+  });
+
+  // Apply conditional formatting (simple manual approach)
+  worksheet.eachRow((row, rowNumber) => {
+    if (rowNumber === 1) return; // skip header
+    ['C','D','E'].forEach(col => { // exam_status, am_status, pm_status
+      const cell = row.getCell(col);
+      const val = (cell.value || '').toString().toLowerCase();
+      if (val === 'absent') {
+        cell.font = { color: { argb: 'FFF07361' }, bold: true }; // red
+      } else if (val === 'present') {
+        cell.font = { color: { argb: 'FF38CC79' }, bold: true }; // green
+      }
+    });
+  });
+
+  // Export file
+  const buffer = await workbook.xlsx.writeBuffer();
+  const filename = `${session.session_id}_Attendance.xlsx`;
+  saveAs(new Blob([buffer]), filename);
+}
+
+
 // Attach modal button handlers
 document.getElementById('weekly-export').addEventListener('click', () => {
   if (activeDownloadSessionId) generatePdfForSession(activeDownloadSessionId, 'weekly');
@@ -189,4 +248,7 @@ document.getElementById('am-export').addEventListener('click', () => {
 });
 document.getElementById('pm-export').addEventListener('click', () => {
   if (activeDownloadSessionId) generatePdfForSession(activeDownloadSessionId, 'pm');
+});
+document.getElementById('excel-export').addEventListener('click', () => {
+  if (activeDownloadSessionId) generateExcelForSession(activeDownloadSessionId);
 });
