@@ -151,7 +151,7 @@ function showAttendanceMessage(status) {
     messageElement.className = 'attendance-status status-error';
     messageElement.innerHTML = '<i class="bx bx-error"></i> Error processing attendance';
   } else if (status === 'sign-first') {
-    messageElement.className = 'attendance-status status-not-found';
+    messageElement.className = 'attendance-status status-please-sign';
     messageElement.innerHTML = '<i class="bx bx-error"></i> Please sign to Continue';
   }
 }

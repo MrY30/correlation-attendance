@@ -286,6 +286,12 @@
     color: var(--warning-color);
 }
 
+.status-please-sign {
+    background: rgba(255, 60, 0, 0.2);
+    border: 2px solid var(--close-button-color);
+    color: var(--close-button-color);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .reader-content {

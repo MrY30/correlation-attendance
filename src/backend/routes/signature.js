@@ -5,6 +5,7 @@ import { storage, supabaseAdmin } from '../lib/supabaseClient.js';
 const router = Router();
 
 const attendance_logs = 'attendance_logs_v2';
+const student_profiles = 'deployed_student_profile';
 const bucket_name = 'student-signatures';
 
 router.post('/save', async (req, res) => {
@@ -34,7 +35,23 @@ router.post('/save', async (req, res) => {
 
     if (uploadError) throw uploadError;
 
-    // Step 2: Check if already attended
+    // --- 2. Update profile with signature path ---
+    const { error: profileError } = await supabaseAdmin
+      .from(student_profiles)
+      .update({ signature: `${bucket_name}/${filePath}` })
+      .eq('school_id', schoolId);
+
+    if (profileError) throw profileError;
+
+    // --- 2. Update profile with signature path ---
+    const { error: profileError2 } = await supabaseAdmin
+      .from(attendance_logs)
+      .update({ signature: `${bucket_name}/${filePath}` })
+      .eq('student_id', schoolId);
+
+    if (profileError2) throw profileError;
+
+    // Step 3: Check if already attended
     const { data: log, error: logError } = await supabaseAdmin
       .from(attendance_logs)
       .select(statusColumn)
@@ -46,7 +63,7 @@ router.post('/save', async (req, res) => {
       return res.json({ success: true, status: 'already-attended' });
     }
 
-    // --- 2. Update attendance status ---
+    // --- 4. Update attendance status ---
     const { error: updateError } = await supabaseAdmin
       .from(attendance_logs)
       .update({ [statusColumn]: 'Present' })

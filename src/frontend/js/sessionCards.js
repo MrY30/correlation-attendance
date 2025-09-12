@@ -124,6 +124,7 @@ function createSessionCard(session) {
     <div class="session-card-footer">
       <span class="session-status ${statusClass}">${display}</span>
       <div class="session-actions">
+        <i class='bx  bx-arrow-in-down-square-half' id='download-session-btn'></i> 
         <i class='bx bx-edit-alt edit-session-btn'></i>
         <i class='bx bx-trash delete-session-btn'></i>
       </div>

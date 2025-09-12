@@ -75,7 +75,7 @@ router.post('/', async (req, res) => {
 
         const { data: studentProfiles, error: studentError } = await supabaseAdmin
                 .from(student_profile) // Your source table
-                .select('name, school_id, section');
+                .select('name, school_id, section, signature');
         
         if (studentError) throw studentError;
 
@@ -84,6 +84,7 @@ router.post('/', async (req, res) => {
             student_id: student.school_id,      // Map 'school_id' to 'student_id'
             section: student.section,           // 'section' column names match
             session_id: newSessionId,           // Use the ID from the newly created session
+            signature: student.signature,   // Include signature if needed
             exam_status: 'Absent',
             am_status: 'Absent',
             pm_status: 'Absent'
@@ -109,7 +110,7 @@ router.post('/', async (req, res) => {
     
 });
 
-// EDIT BUT LATER
+
 router.get('/', async (req, res) => {
   try {
     const { data, error } = await supabaseAdmin

@@ -152,32 +152,22 @@
 }
 
 .btn-reset {
-    background: var(--warning-color);
-    color: white;
+    background: var(--close-button-color);
+    color: var(--font-color);
 }
 
 .btn-reset:hover {
-    background: #e68900;
+    background: var(--close-hover);
     transform: translateY(-2px);
 }
 
 .btn-submit {
     background: var(--card-color);
-    color: var(--font-color-dark);
+    color: var(--font-color);
 }
 
 .btn-submit:hover {
     background: var(--card-hover);
-    transform: translateY(-2px);
-}
-
-.btn-cancel {
-    background: var(--header-border);
-    color: var(--font-color);
-}
-
-.btn-cancel:hover {
-    background: var(--icon-hover);
     transform: translateY(-2px);
 }
 

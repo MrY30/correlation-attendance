@@ -1,4 +1,4 @@
-// src/backend/routes/reports.js  (or add below existing routes in this file)
+// src/backend/routes/reports.js
 import { Router } from 'express';
 import { supabaseAdmin } from '../lib/supabaseClient.js'; // use your server-side client
 
@@ -6,7 +6,7 @@ const router = Router();
 
 // const sessions = 'deployed_sessions';
 const sessions = 'sessions_v2';
-const attendance_logs = 'deployed_attendance_logs';
+const attendance_logs = 'attendance_logs_v2';
 
 // GET /api/reports/:sessionId/attendance
 router.get('/:sessionId/attendance', async (req, res) => {
@@ -17,7 +17,7 @@ router.get('/:sessionId/attendance', async (req, res) => {
     // 1) fetch session info
     const { data: session, error: sessionErr } = await supabaseAdmin
       .from(sessions)
-      .select('session_name, session_id, open_date, close_date')
+      .select('session_name, session_id, weekly_start, weekly_late, weekly_end, am_start, am_late, am_end, pm_start, pm_late, pm_end, publish_date')
       .eq('session_id', sessionId)
       .maybeSingle();
 
@@ -27,7 +27,7 @@ router.get('/:sessionId/attendance', async (req, res) => {
     // 2) fetch attendance logs for that session
     const { data: logs, error: logsErr } = await supabaseAdmin
       .from(attendance_logs)
-      .select('student_id, student_name, section, status')
+      .select('student_id, student_name, section, exam_status, am_status, pm_status, signature')
       .eq('session_id', sessionId)
       .order('student_name', { ascending: true });
 

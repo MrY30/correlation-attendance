@@ -4,6 +4,32 @@
 
 import { fetchAttendanceData } from "./api.js";
 
+const downloadModal = document.getElementById('popup-overlay-download');
+const closeDownloadBtn = document.getElementById('popup-close-download');
+const grid = document.querySelector('.session-grid');
+
+// Store the active session ID here
+let activeDownloadSessionId = null;
+
+// Open modal when clicking download button in a card
+grid.addEventListener('click', (e) => {
+  if (e.target.closest('#download-session-btn')) {
+    const card = e.target.closest('.session-card');
+    if (card) {
+      activeDownloadSessionId = card.dataset.sessionId;
+      downloadModal.dataset.sessionId = activeDownloadSessionId;
+      downloadModal.classList.remove('hidden');
+      console.log("Download modal opened for session:", activeDownloadSessionId);
+    }
+  }
+});
+
+// Close modal
+closeDownloadBtn.addEventListener('click', () => {
+  downloadModal.classList.add('hidden');
+  activeDownloadSessionId = null;
+});
+
 // helper: format date/time in Asia/Manila
 function fmtLocal(dt) {
   return new Intl.DateTimeFormat('en-US', {
@@ -13,34 +39,68 @@ function fmtLocal(dt) {
   }).format(dt);
 }
 
-
-
-function getSessionIdFromDOM() {
-  // try dataset first (recommended)
-  const el = document.getElementById('session-detail-id');
-  if (el) {
-    // If you set data-session-id on this element:
-    if (el.dataset && el.dataset.sessionId) return el.dataset.sessionId;
-
-    // otherwise try parsing text "ID: SAMP-2"
-    const txt = el.textContent || '';
-    const match = txt.match(/ID:\s*(\S+)/i);
-    if (match) return match[1];
-  }
-  // Fallback: try global (if you set window.currentSessionId elsewhere)
-  return window.currentSessionId || null;
-}
-
 function formatFileDate(d) {
-  // yyyyMMdd_HHmm
   const pad = (n) => String(n).padStart(2, '0');
   return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}`;
 }
 
-async function generatePdfForSession(sessionId, options = {}) {
+// Convert Blob → base64
+async function blobToDataURL(blob) {
+  return await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+// Main export
+async function generatePdfForSession(sessionId, type = 'weekly') {
   const { session, logs } = await fetchAttendanceData(sessionId);
 
-  // Create doc (A4 portrait)
+  const typeLabel = type === 'weekly' ? 'Weekly Exam'
+                  : type === 'am' ? 'AM Session'
+                  : 'PM Session';
+
+  // Build table data
+  const body = (logs || []).map(r => {
+    let statusVal = '';
+    if (type === 'weekly') statusVal = r.exam_status ?? '';
+    else if (type === 'am') statusVal = r.am_status ?? '';
+    else if (type === 'pm') statusVal = r.pm_status ?? '';
+
+    const signaturePath = r.signature;
+    const signatureUrl = signaturePath
+      ? `https://zulkfodbfdgocghnqxuq.supabase.co/storage/v1/object/public/${signaturePath}`
+      : null;
+
+    return {
+      student_id: r.student_id,
+      student_name: r.student_name,
+      section: r.section,
+      status: statusVal,
+      signature_url: signatureUrl
+    };
+  });
+
+  async function tryLoadSignature(url) {
+    if (!url) return null; // skip if no signature path at all
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) return null; // avoid 404 spam
+      const blob = await resp.blob();
+      return await blobToDataURL(blob);
+    } catch {
+      return null;
+    }
+  }
+
+
+
+  // Preload images (leave null if not found)
+  const images = await Promise.all(body.map(r => tryLoadSignature(r.signature_url)));
+
+  // Create doc
   const doc = new window.jspdf.jsPDF('p', 'pt', 'a4');
   const marginLeft = 40;
   let y = 40;
@@ -48,96 +108,85 @@ async function generatePdfForSession(sessionId, options = {}) {
   // Header
   doc.setFont("times","normal");
   doc.setFontSize(16);
-  doc.text(session.session_name || 'Session', marginLeft, y);
+  doc.text(`${session.session_name} - ${typeLabel}`, marginLeft, y);
   doc.setFontSize(11);
   y += 18;
   doc.text(`Session ID: ${session.session_id}`, marginLeft, y);
-  y += 16;
-    //   const exportedAt = fmtLocal(new Date());
-    //doc.text(`Exported: ${exportedAt}`, marginLeft, y);
-    // format open_date and close_date from session
-    const open = fmtLocal(new Date(session.open_date));
-    const close = fmtLocal(new Date(session.close_date));
-    doc.text(`Duration: ${open}-${close}`, marginLeft, y);
-    y += 10;
 
-  // small separator line
+  // Duration
+  y += 16;
+  const open = fmtLocal(new Date(`${session.publish_date}T${type === 'weekly' ? session.weekly_start : type === 'am' ? session.am_start : session.pm_start}`));
+  const close = fmtLocal(new Date(`${session.publish_date}T${type === 'weekly' ? session.weekly_end : type === 'am' ? session.am_end : session.pm_end}`));
+  doc.text(`Duration: ${open} - ${close}`, marginLeft, y);
+  y += 10;
+
+  // Separator
   doc.setLineWidth(0.5);
   doc.line(marginLeft, y, doc.internal.pageSize.getWidth() - marginLeft, y);
   y += 10;
 
-  // Prepare table columns and body (objects)
+  // Columns
   const columns = [
     { header: 'Student ID', dataKey: 'student_id' },
     { header: 'Student Name', dataKey: 'student_name' },
     { header: 'Section', dataKey: 'section' },
-    { header: 'Status', dataKey: 'status' }
+    { header: 'Status', dataKey: 'status' },
+    { header: 'Signature', dataKey: 'signature' }
   ];
 
-  const body = (logs || []).map(r => ({
-    student_id: r.student_id ?? r.student_id,    // adjust field names if different
-    student_name: r.student_name ?? r.student_name,
-    section: r.section ?? '',
-    status: r.status ?? ''
-  }));
-
-  // Add table with AutoTable. Use columns + body form (so didParseCell can style status).
+  // Render table
   doc.autoTable({
     startY: y,
-    head: [columns.map(c => c.header)],
-    body: body.map(r => [r.student_id, r.student_name, r.section, r.status]),
-    // styles: { fontSize: 10, cellPadding: 6 },
-    // headStyles: { fillColor: [230,230,230], halign: 'left' },
-    styles: { fontSize: 10, cellPadding: 6 },
-    headStyles: { fillColor: [40, 49, 59], textColor: [255,255,255], halign: 'left' },
-    alternateRowStyles: { fillColor: [245, 245, 245], textColor: [45, 56, 69], halign: 'left' }, // light gray striping
+    columns,
+    body,
+    styles: { fontSize: 10, cellPadding: 6, valign: 'middle' },
+    headStyles: { fillColor: [40, 49, 59], textColor: [255,255,255] },
+    alternateRowStyles: { fillColor: [245, 245, 245] },
+    didDrawCell: function (data) {
+      // Draw signature images only if Present
+      if (data.section === 'body' && data.column.dataKey === 'signature') {
+        const rowStatus = (body[data.row.index].status || '').toLowerCase();
+        const imgData = images[data.row.index];
+
+        if (rowStatus === 'present' && imgData) {
+          const maxW = Math.min(data.cell.width - 4, 70);
+          const imgH = 20;
+          const imgX = data.cell.x + 2;
+          const imgY = data.cell.y + (data.cell.height - imgH) / 2;
+          try {
+            doc.addImage(imgData, 'PNG', imgX, imgY, maxW, imgH);
+          } catch {}
+        }
+      }
+    },
     didParseCell: function (data) {
-      // data.column.index -> 0..3; status is index 3 when using head/body approach
-      if (data.column.index === 3) {
-        const cellText = (data.cell.raw || data.cell.text || '').toString().trim().toLowerCase();
-        if (cellText === 'present') {
-          data.cell.styles.textColor = [56, 204, 121]; // green
-        } else if (cellText === 'absent') {
-          data.cell.styles.textColor = [240, 115, 97]; // red
+      if (data.section === 'body' && data.column.dataKey === 'status') {
+        const txt = (data.cell.raw || '').toString().toLowerCase();
+        if (txt === 'present') {
+          data.cell.styles.textColor = [56, 204, 121];
+          data.cell.styles.fontStyle = 'bold';
+        }
+        if (txt === 'absent') {
+          data.cell.styles.textColor = [240, 115, 97];
+          data.cell.styles.fontStyle = 'bold';
         }
       }
     },
     margin: { left: marginLeft, right: marginLeft }
   });
 
-  // Filename
-  //const filename = `${session.session_id || 'attendance'}_${formatFileDate(new Date())}.pdf`;
-  const filename = `${session.session_id}.pdf`;
+  // Save
+  const filename = `${session.session_id}_${typeLabel.replace(/\s+/g, '')}_${formatFileDate(new Date())}.pdf`;
   doc.save(filename);
 }
 
-async function onClickExport(e) {
-  try {
-    const btn = e.currentTarget;
-    btn.setAttribute('disabled', 'disabled');
-    const originalText = btn.textContent;
-    btn.textContent = 'Exporting…';
-
-    const sessionId = getSessionIdFromDOM();
-    if (!sessionId) throw new Error('Could not determine session ID on the page.');
-
-    await generatePdfForSession(sessionId);
-
-    btn.textContent = originalText;
-    btn.removeAttribute('disabled');
-  } catch (err) {
-    console.error('Export failed:', err);
-    alert('Export failed: ' + (err.message || 'unknown'));
-    const btn = document.querySelector('.pdf-export');
-    if (btn) {
-      btn.removeAttribute('disabled');
-      btn.textContent = '📝 Export to PDF';
-    }
-  }
-}
-
-// attach handler (call after DOM loaded)
-document.addEventListener('DOMContentLoaded', () => {
-  const exportBtn = document.querySelector('.pdf-export');
-  if (exportBtn) exportBtn.addEventListener('click', onClickExport);
+// Attach modal button handlers
+document.getElementById('weekly-export').addEventListener('click', () => {
+  if (activeDownloadSessionId) generatePdfForSession(activeDownloadSessionId, 'weekly');
+});
+document.getElementById('am-export').addEventListener('click', () => {
+  if (activeDownloadSessionId) generatePdfForSession(activeDownloadSessionId, 'am');
+});
+document.getElementById('pm-export').addEventListener('click', () => {
+  if (activeDownloadSessionId) generatePdfForSession(activeDownloadSessionId, 'pm');
 });

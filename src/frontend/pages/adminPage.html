@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="../css/main-session-information.css">
 	<link rel="stylesheet" href="../css/switch.css">
 	<link rel="stylesheet" href="../css/confirmModal.css">
+	<link rel="stylesheet" href="../css/download-button.css">
 	<link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 
 	<!-- FONTS -->
@@ -279,6 +280,71 @@
 					</div>
 				</div>
 
+				<!-- Popup Modal for Download -->
+				<div class="popup-overlay hidden" id="popup-overlay-download">
+					<div class="popup-modal">
+						<div class="popup-header">
+							<h2>Export Sessions</h2>
+							<i class='bx bx-x popup-close' id="popup-close-download"></i>
+						</div>
+						<div class="popup-body">
+							<div class="download-buttons-grid">
+								<div class="download-button" id="weekly-export">
+									<div class="download-button-content">
+										<div class="download-button-icon">
+											<i class='bx bx-calendar-week'></i>
+										</div>
+										<div class="download-button-text">
+											<div class="download-button-title">Weekly Exam</div>
+											<div class="download-button-subtitle">📝 Export to PDF</div>
+										</div>
+									</div>
+									<i class='bx bx-chevron-right download-button-arrow'></i>
+								</div>
+
+								<div class="download-button" id="am-export">
+									<div class="download-button-content">
+										<div class="download-button-icon">
+											<i class='bx bx-sun'></i>
+										</div>
+										<div class="download-button-text">
+											<div class="download-button-title">AM Session</div>
+											<div class="download-button-subtitle">📝 Export to PDF</div>
+										</div>
+									</div>
+									<i class='bx bx-chevron-right download-button-arrow'></i>
+								</div>
+
+								<div class="download-button" id="pm-export">
+									<div class="download-button-content">
+										<div class="download-button-icon">
+											<i class='bx bx-moon'></i>
+										</div>
+										<div class="download-button-text">
+											<div class="download-button-title">PM Session</div>
+											<div class="download-button-subtitle">📝 Export to PDF</div>
+										</div>
+									</div>
+									<i class='bx bx-chevron-right download-button-arrow'></i>
+								</div>
+
+								<div class="download-button" id="excel-export">
+									<div class="download-button-content">
+										<div class="download-button-icon">
+											<i class='bx bx-table'></i>
+										</div>
+										<div class="download-button-text">
+											<div class="download-button-title">Excel Spreadsheet</div>
+											<div class="download-button-subtitle">📊 Export to Excel</div>
+										</div>
+									</div>
+									<i class='bx bx-chevron-right download-button-arrow'></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
             </div>
 			<div class="main-register">
 				<div class="main-search-area">
@@ -333,5 +399,7 @@
 	<script type="module" src="../js/exportPdf.js"></script>
 	<!-- DELETE A SESSION -->
 	<script type="module" src="../js/deleteSession.js"></script>
+	<!-- DOWNLOAD A SESSION -->
+	<script type="module" src="../js/downloadSession.js"></script>
 </body>
 </html>
