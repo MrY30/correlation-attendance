@@ -75,46 +75,10 @@ router.post('/scan', async (req, res) => {
       });
     }
 
-    // Step 5: Fetch session late cutoff from sessions_v2
-    const columnMap = {
-      exam_status: 'weekly_late',
-      am_status: 'am_late',
-      pm_status: 'pm_late'
-    };
-    const lateColumn = columnMap[statusColumn];
-
-    const { data: session, error: sessionError } = await supabaseAdmin
-      .from('sessions_v2')
-      .select(lateColumn)
-      .eq('id', sessionId)
-      .single();
-
-    if (sessionError || !session) {
-      console.error('Session lookup error:', sessionError?.message);
-      return res.status(500).json({ error: 'Failed to fetch session late time' });
-    }
-
-    const lateTimeStr = session[lateColumn]; // e.g. "08:30:00"
-
-    // Build cutoff Date object for today
-    const [hours, minutes, seconds] = lateTimeStr.split(':').map(Number);
-    const now = new Date();
-    const lateCutoff = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      hours,
-      minutes,
-      seconds || 0
-    );
-
-    // Step 6: Determine status
-    const newStatus = now > lateCutoff ? 'Late' : 'Present';
-
-    // Step 7: Update only the correct column
+    // Step 5: Update status to Present
     const { error: updateError } = await supabaseAdmin
       .from(attendance_logs)
-      .update({ [statusColumn]: newStatus })
+      .update({ [statusColumn]: 'Present' })
       .eq('session_id', sessionId)
       .eq('student_id', student.school_id);
 
