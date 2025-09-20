@@ -86,7 +86,7 @@ router.post('/scan', async (req, res) => {
     const { data: session, error: sessionError } = await supabaseAdmin
       .from('sessions_v2')
       .select(lateColumn)
-      .eq('id', sessionId)
+      .eq('session_id', sessionId)
       .single();
 
     if (sessionError || !session) {

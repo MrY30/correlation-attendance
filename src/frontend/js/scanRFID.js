@@ -71,6 +71,7 @@ async function processStudentId(rfidCode) {
     const sessionCard = document.getElementById("session-id")
     const sessionId = sessionCard.dataset.session;
     const statusColumn = sessionCard.dataset.titleStatus;
+    // console.log(sessionId)
 
     const result = await scanAttendance(rfidCode, sessionId, statusColumn);
 
