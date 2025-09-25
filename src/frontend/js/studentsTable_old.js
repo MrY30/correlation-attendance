@@ -3,9 +3,6 @@ import { fetchStudents } from './api.js';
 
 const tbody = document.querySelector('#students-table-body');
 const loadingEl = document.querySelector('#students-loading');
-const searchInput = document.querySelector('.search-input');
-
-let allStudents = []; // cache so we can search without backend
 
 function renderRow(student) {
   const name = student.name ?? '';
@@ -14,7 +11,7 @@ function renderRow(student) {
 
   let status = 'UNREGISTERED';
   let statusClassName = 'status-not-registered';
-  if (student.rfid_code) {
+  if(student.rfid_code){
     status = 'REGISTERED';
     statusClassName = 'status-registered';
   }
@@ -49,33 +46,28 @@ function renderRow(student) {
   return row;
 }
 
-function renderTable(students) {
-  tbody.innerHTML = '';
-
-  if (!students.length) {
-    const emptyRow = document.createElement('div');
-    emptyRow.className = 'table-row';
-    const cell = document.createElement('div');
-    cell.className = 'table-cell';
-    cell.style.gridColumn = '1 / -1';
-    cell.textContent = 'No students found.';
-    emptyRow.appendChild(cell);
-    tbody.appendChild(emptyRow);
-    return;
-  }
-
-  const fragment = document.createDocumentFragment();
-  students.forEach(s => fragment.appendChild(renderRow(s)));
-  tbody.appendChild(fragment);
-}
-
 async function initTable() {
   try {
     if (loadingEl) loadingEl.style.display = 'block';
     tbody.innerHTML = '';
 
-    allStudents = await fetchStudents(); // keep full list
-    renderTable(allStudents);
+    const students = await fetchStudents();
+
+    if (!students.length) {
+      const emptyRow = document.createElement('div');
+      emptyRow.className = 'table-row';
+      const cell = document.createElement('div');
+      cell.className = 'table-cell';
+      cell.style.gridColumn = '1 / -1';
+      cell.textContent = 'No students found.';
+      emptyRow.appendChild(cell);
+      tbody.appendChild(emptyRow);
+      return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    students.forEach(s => fragment.appendChild(renderRow(s)));
+    tbody.appendChild(fragment);
   } catch (err) {
     console.error(err);
     const errorRow = document.createElement('div');
@@ -90,18 +82,5 @@ async function initTable() {
     if (loadingEl) loadingEl.style.display = 'none';
   }
 }
-
-// 🔍 live search on every keystroke
-searchInput.addEventListener('input', (e) => {
-  const query = e.target.value.toLowerCase().trim();
-
-  const filtered = allStudents.filter(student => {
-    const name = (student.name ?? '').toLowerCase();
-    const schoolId = String(student.school_id ?? '').toLowerCase();
-    return name.includes(query) || schoolId.includes(query);
-  });
-
-  renderTable(filtered);
-});
 
 document.addEventListener('DOMContentLoaded', initTable);
