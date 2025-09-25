@@ -148,7 +148,7 @@ async function generatePdfForSession(sessionId, type = 'weekly') {
         const rowStatus = (body[data.row.index].status || '').toLowerCase();
         const imgData = images[data.row.index];
 
-        if (rowStatus === 'present' && imgData) {
+        if ((rowStatus === 'present' || rowStatus === 'late') && imgData) {
           const maxW = Math.min(data.cell.width - 4, 70);
           const imgH = 20;
           const imgX = data.cell.x + 2;
@@ -168,6 +168,10 @@ async function generatePdfForSession(sessionId, type = 'weekly') {
         }
         if (txt === 'absent') {
           data.cell.styles.textColor = [240, 115, 97];
+          data.cell.styles.fontStyle = 'bold';
+        }
+        if (txt === 'late') {
+          data.cell.styles.textColor = [255, 165, 63];
           data.cell.styles.fontStyle = 'bold';
         }
       }
