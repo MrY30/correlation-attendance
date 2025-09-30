@@ -1,6 +1,12 @@
 // src/backend/routes/attendance.js
 import { Router } from 'express';
 import { supabaseAdmin, storage } from '../lib/supabaseClient.js';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const router = Router();
 
@@ -17,7 +23,7 @@ router.post('/scan', async (req, res) => {
       return res.status(400).json({ error: 'Missing RFID code or sessionId or statusColumn' });
     }
 
-    // ✅ Sanitize: allow only expected column names
+    // Sanitize: allow only expected column names
     const validColumns = ['exam_status', 'am_status', 'pm_status'];
     if (!validColumns.includes(statusColumn)) {
       return res.status(400).json({ error: 'Invalid status column' });
@@ -48,7 +54,7 @@ router.post('/scan', async (req, res) => {
     const hasSignature = fileList && fileList.length > 0;
 
     if (!hasSignature) {
-      // ⚠️ Tell frontend to open signature modal
+      // Tell frontend to open signature modal
       return res.json({
         status: 'sign-first',
         student
@@ -97,21 +103,30 @@ router.post('/scan', async (req, res) => {
     const lateTimeStr = session[lateColumn]; // e.g. "08:30:00"
 
     // Build cutoff Date object for today
-    const [hours, minutes, seconds] = lateTimeStr.split(':').map(Number);
-    const now = new Date();
-    const lateCutoff = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      hours,
-      minutes,
-      seconds || 0
-    );
+    // const [hours, minutes, seconds] = lateTimeStr.split(':').map(Number);
+    // const now = new Date();
+    // const lateCutoff = new Date(
+    //   now.getFullYear(),
+    //   now.getMonth(),
+    //   now.getDate(),
+    //   hours,
+    //   minutes,
+    //   seconds || 0
+    // );
 
-    // Step 6: Determine status
-    const newStatus = now > lateCutoff ? 'Late' : 'Present';
+    // Step 6: Use Manila timezone for now + cutoff 
+    const now = dayjs().tz("Asia/Manila"); 
+    const [hours, minutes, seconds] = lateTimeStr.split(':').map(Number); 
+    const lateCutoff = now
+      .clone()
+      .hour(hours)
+      .minute(minutes)
+      .second(seconds || 0);
 
-    // Step 7: Update only the correct column
+    // Step 7: Determine status
+    const newStatus = now.isAfter(lateCutoff) ? 'Late' : 'Present';
+
+    // Step 8: Update only the correct column
     const { error: updateError } = await supabaseAdmin
       .from(attendance_logs)
       .update({ [statusColumn]: newStatus })
