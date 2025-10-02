@@ -8,6 +8,10 @@ const downloadModal = document.getElementById('popup-overlay-download');
 const closeDownloadBtn = document.getElementById('popup-close-download');
 const grid = document.querySelector('.session-grid');
 
+const instructorOne = document.getElementById('instructor-one');
+const instructorTwo = document.getElementById('instructor-two');
+const instructorThree = document.getElementById('instructor-three');
+
 // Store the active session ID here
 let activeDownloadSessionId = null;
 
@@ -36,6 +40,9 @@ grid.addEventListener('click', (e) => {
 
 // Close modal
 closeDownloadBtn.addEventListener('click', () => {
+  instructorOne.value = "";
+  instructorTwo.value = "";
+  instructorThree.value = "";
   downloadModal.classList.add('hidden');
   activeDownloadSessionId = null;
 });
@@ -64,11 +71,26 @@ async function blobToDataURL(blob) {
   });
 }
 
+// This function checks if the inputs are filled
+function validateInput(){
+  if(instructorOne.value.trim() === '' || instructorTwo.value.trim() === '' || instructorThree.value.trim() === ''){
+    return false;
+  }
+  return true;
+}
+
+
 // Main export
 async function generatePdfForSession(sessionId, type = 'weekly') {
     const buttonId = type === 'weekly' ? 'weekly-export' 
                     : type === 'am' ? 'am-export' 
                     : 'pm-export';
+
+    if(!validateInput()){
+      alert('The instructors are incomplete');
+      return;
+    }
+
     try{
         setButtonLoading(buttonId, true);
         const { session, logs } = await fetchAttendanceData(sessionId);
@@ -208,6 +230,12 @@ async function generatePdfForSession(sessionId, type = 'weekly') {
 // Final Export Format
 async function generatePdfFinal(sessionId) {
     const buttonId = 'final-export'
+
+    if(!validateInput()){
+      alert('The instructors are incomplete');
+      return;
+    }
+
     try{
         setButtonLoading(buttonId, true);
         const { session, logs } = await fetchAttendanceData(sessionId);
@@ -339,6 +367,27 @@ async function generatePdfFinal(sessionId) {
             margin: { left: marginLeft, right: marginLeft }
         });
 
+        // After table
+        const finalY = doc.lastAutoTable.finalY + 100; // Add some spacing
+
+        doc.setFontSize(11);
+        doc.setLineWidth(0.5);
+
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const sectionWidth = (pageWidth - marginLeft * 2) / 3; // divide into 3 equal sections
+
+        // Instructor 1
+        doc.line(marginLeft, finalY, marginLeft + sectionWidth - 20, finalY); // signature line
+        doc.text(instructorOne.value.trim() || "Instructor 1", marginLeft + (sectionWidth - 20) / 2, finalY + 15, { align: "center" });
+
+        // Instructor 2
+        doc.line(marginLeft + sectionWidth, finalY, marginLeft + sectionWidth * 2 - 20, finalY);
+        doc.text(instructorTwo.value.trim() || "Instructor 2", marginLeft + sectionWidth + (sectionWidth - 20) / 2, finalY + 15, { align: "center" });
+
+        // Instructor 3
+        doc.line(marginLeft + sectionWidth * 2, finalY, pageWidth - marginLeft, finalY);
+        doc.text(instructorThree.value.trim() || "Instructor 3", marginLeft + sectionWidth * 2 + (sectionWidth - 20) / 2, finalY + 15, { align: "center" });
+
         // Save
         const filename = `${session.session_id}_Attendance Sheet_${formatFileDate(new Date())}.pdf`;
         doc.save(filename);
@@ -352,6 +401,12 @@ async function generatePdfFinal(sessionId) {
 
 // END HERE
 async function generateExcelForSession(sessionId) {
+
+  if(!validateInput()){
+    alert('The instructors are incomplete');
+    return;
+  }
+
   const { session, logs } = await fetchAttendanceData(sessionId);
 
   // Create workbook and worksheet
@@ -408,7 +463,6 @@ async function generateExcelForSession(sessionId) {
   const filename = `${session.session_id}_Attendance.xlsx`;
   saveAs(new Blob([buffer]), filename);
 }
-
 
 // Attach modal button handlers
 document.getElementById('weekly-export').addEventListener('click', () => {

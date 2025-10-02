@@ -295,74 +295,85 @@
 						</div>
 						<div class="popup-body">
 							<div class="download-buttons-grid">
-								<div class="download-button" id="weekly-export">
-									<div class="download-button-content">
-										<div class="download-button-icon">
-											<i class='bx bx-calendar-week'></i>
-										</div>
-										<div class="download-button-text">
-											<div class="download-button-title">Weekly Exam</div>
-											<div class="download-button-subtitle">Export to PDF</div>
-										</div>
+								<!-- INSERT INPUT FORMS -->
+								<form>
+									<div class="form-group">
+										<label for="session-id">Instructor Number 1</label>
+										<input type="text" id="instructor-one" class="form-input" placeholder="Enter Instructor">
+										<label for="session-id">Instructor Number 2</label>
+										<input type="text" id="instructor-two" class="form-input" placeholder="Enter Instructor">
+										<label for="session-id">Instructor Number 3</label>
+										<input type="text" id="instructor-three" class="form-input" placeholder="Enter Instructor">
 									</div>
-									<i class='bx bx-chevron-right download-button-arrow'></i>
-									<div class="loading-spinner"></div>
+								</form>
+								<div class="form-row-three">
+									<div class="download-button" id="weekly-export">
+										<div class="download-button-content">
+											<div class="download-button-icon">
+												<i class='bx bx-calendar-week'></i>
+											</div>
+											<div class="download-button-text">
+												<div class="download-button-title">Weekly Exam</div>
+												<div class="download-button-subtitle">Export to PDF</div>
+											</div>
+										</div>
+										<i class='bx bx-chevron-right download-button-arrow'></i>
+										<div class="loading-spinner"></div>
+									</div>
+									<div class="download-button" id="am-export">
+										<div class="download-button-content">
+											<div class="download-button-icon">
+												<i class='bx bx-sun'></i>
+											</div>
+											<div class="download-button-text">
+												<div class="download-button-title">AM Session</div>
+												<div class="download-button-subtitle">Export to PDF</div>
+											</div>
+										</div>
+										<i class='bx bx-chevron-right download-button-arrow'></i>
+										<div class="loading-spinner"></div>
+									</div>
+									<div class="download-button" id="pm-export">
+										<div class="download-button-content">
+											<div class="download-button-icon">
+												<i class='bx bx-moon'></i>
+											</div>
+											<div class="download-button-text">
+												<div class="download-button-title">PM Session</div>
+												<div class="download-button-subtitle">Export to PDF</div>
+											</div>
+										</div>
+										<i class='bx bx-chevron-right download-button-arrow'></i>
+										<div class="loading-spinner"></div>
+									</div>
 								</div>
-
-								<div class="download-button" id="am-export">
-									<div class="download-button-content">
-										<div class="download-button-icon">
-											<i class='bx bx-sun'></i>
+								<div class="form-row">
+									<div class="download-button" id="final-export">
+										<div class="download-button-content">
+											<div class="download-button-icon">
+												<i class='bxr  bx-calendar-check'  ></i> 
+											</div>
+											<div class="download-button-text">
+												<div class="download-button-title">Export All</div>
+												<div class="download-button-subtitle">Export to PDF</div>
+											</div>
 										</div>
-										<div class="download-button-text">
-											<div class="download-button-title">AM Session</div>
-											<div class="download-button-subtitle">Export to PDF</div>
-										</div>
+										<i class='bx bx-chevron-right download-button-arrow'></i>
+										<div class="loading-spinner"></div>
 									</div>
-									<i class='bx bx-chevron-right download-button-arrow'></i>
-									<div class="loading-spinner"></div>
-								</div>
-
-								<div class="download-button" id="pm-export">
-									<div class="download-button-content">
-										<div class="download-button-icon">
-											<i class='bx bx-moon'></i>
+									<div class="download-button" id="excel-export">
+										<div class="download-button-content">
+											<div class="download-button-icon">
+												<i class='bx bx-table'></i>
+											</div>
+											<div class="download-button-text">
+												<div class="download-button-title">Excel Spreadsheet</div>
+												<div class="download-button-subtitle">Export to Excel</div>
+											</div>
 										</div>
-										<div class="download-button-text">
-											<div class="download-button-title">PM Session</div>
-											<div class="download-button-subtitle">Export to PDF</div>
-										</div>
+										<i class='bx bx-chevron-right download-button-arrow'></i>
+										<div class="loading-spinner"></div>
 									</div>
-									<i class='bx bx-chevron-right download-button-arrow'></i>
-									<div class="loading-spinner"></div>
-								</div>
-
-								<div class="download-button" id="final-export">
-									<div class="download-button-content">
-										<div class="download-button-icon">
-											<i class='bxr  bx-calendar-check'  ></i> 
-										</div>
-										<div class="download-button-text">
-											<div class="download-button-title">Export All</div>
-											<div class="download-button-subtitle">Export to PDF</div>
-										</div>
-									</div>
-									<i class='bx bx-chevron-right download-button-arrow'></i>
-									<div class="loading-spinner"></div>
-								</div>
-
-								<div class="download-button" id="excel-export">
-									<div class="download-button-content">
-										<div class="download-button-icon">
-											<i class='bx bx-table'></i>
-										</div>
-										<div class="download-button-text">
-											<div class="download-button-title">Excel Spreadsheet</div>
-											<div class="download-button-subtitle">Export to Excel</div>
-										</div>
-									</div>
-									<i class='bx bx-chevron-right download-button-arrow'></i>
-									<div class="loading-spinner"></div>
 								</div>
 							</div>
 						</div>
