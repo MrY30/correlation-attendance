@@ -254,7 +254,10 @@ sessionForm.addEventListener('submit', async (e) => {
         hidePopup();
         alert('Session added successfully!');
     } catch (error) {
-        alert(`Error: ${error.message}`);
+        if(error.message === 'duplicate key value violates unique constraint "sessions_v2_session_id_key"'){
+            alert(`Session ID has been used. Please delete the session with the same ID or use DEMO mode.`)
+        }else{
+            alert(`Error: ${error.message}`);
+        }   
     }
-
 });
