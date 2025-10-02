@@ -2,7 +2,7 @@
 // Requires: jspdf and jspdf-autotable loaded globally via CDN scripts.
 // Uses global window.jspdf.jsPDF and doc.autoTable
 
-import { fetchAttendanceData } from "./api.js";
+import { fetchAttendanceData } from "../api.js";
 
 const downloadModal = document.getElementById('popup-overlay-download');
 const closeDownloadBtn = document.getElementById('popup-close-download');

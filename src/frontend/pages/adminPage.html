@@ -125,15 +125,15 @@
 											<div class="form-row-three">
 												<div class="form-group">
 													<label for="publish-time">Start Time</label>
-													<input type="time" id="weekly-start-time" class="form-input" required>
+													<input type="time" id="weekly-start-time" class="form-input" value="08:00" required>
 												</div>
 												<div class="form-group">
 													<label for="publish-time">Late Time</label>
-													<input type="time" id="weekly-late-time" class="form-input" required>
+													<input type="time" id="weekly-late-time" class="form-input" value="09:00" required>
 												</div>
 												<div class="form-group">
 													<label for="close-time">End Time</label>
-													<input type="time" id="weekly-end-time" class="form-input" required>
+													<input type="time" id="weekly-end-time" class="form-input" value="09:59" required>
 												</div>
 											</div>
 										</div>
@@ -143,15 +143,15 @@
 											<div class="form-row-three">
 												<div class="form-group">
 													<label for="publish-time">Start Time</label>
-													<input type="time" id="am-start-time" class="form-input" required>
+													<input type="time" id="am-start-time" class="form-input" value="10:00" required>
 												</div>
 												<div class="form-group">
 													<label for="publish-time">Late Time</label>
-													<input type="time" id="am-late-time" class="form-input" required>
+													<input type="time" id="am-late-time" class="form-input" value="11:00" required>
 												</div>
 												<div class="form-group">
 													<label for="close-time">End Time</label>
-													<input type="time" id="am-end-time" class="form-input" required>
+													<input type="time" id="am-end-time" class="form-input" value="11:59" required>
 												</div>
 											</div>
 										</div>
@@ -161,18 +161,19 @@
 											<div class="form-row-three">
 												<div class="form-group">
 													<label for="publish-time">Start Time</label>
-													<input type="time" id="pm-start-time" class="form-input" required>
+													<input type="time" id="pm-start-time" class="form-input" value="13:00" required>
 												</div>
 												<div class="form-group">
 													<label for="publish-time">Late Time</label>
-													<input type="time" id="pm-late-time" class="form-input" required>
+													<input type="time" id="pm-late-time" class="form-input" value="14:00" required>
 												</div>
 												<div class="form-group">
 													<label for="close-time">End Time</label>
-													<input type="time" id="pm-end-time" class="form-input" required>
+													<input type="time" id="pm-end-time" class="form-input" value="14:59" required>
 												</div>
 											</div>
 										</div>
+
 									</div>
 								</div>
 								<div class="form-bottom-content">
@@ -184,6 +185,8 @@
 										</label>
 									</div>
 									<div class="form-actions">
+										<!-- 🔴 Error messages go here -->
+      									<div id="time-errors" class="error-box hidden"></div>
 										<button type="button" class="btn-cancel" id="cancel-btn">Cancel</button>
 										<button type="submit" class="btn-add" id="add-btn">Add Session</button>
 									</div>
@@ -393,19 +396,19 @@
 	 </div>
 
 	<!-- DARK MODE AND SIDE PANEL BUTTONS -->
-	<script type="text/javascript" src="../js/toggle.js"></script>
+	<script type="text/javascript" src="../js/admin/toggle.js"></script>
 	<!-- EDIT BUTTON (?) AND SEARCH FEATURE -->
-	<script type="module" src="../js/editSession.js"></script>
+	<script type="module" src="../js/admin/editSession.js"></script>
 	<!-- SUBMITS SESSION DETAILS FROM MODAL TO BACKEND -->
-	<script type="module" src="../js/submitSession.js"></script>
+	<script type="module" src="../js/admin/submitSession.js"></script>
 	<!-- FOR  main-register TABLE: DISPLAY LIST OF STUDENTS-->
-	<script type="module" src="../js/studentsTable.js"></script>
+	<script type="module" src="../js/admin/studentsTable.js"></script>
 	<!-- FOR main-session: DISPLAY LIST OF SESSIONS FROM BACKEND -->
-	<script type="module" src="../js/sessionCards.js"></script>
+	<script type="module" src="../js/admin/sessionCards.js"></script>
 	<!-- EXPORTS TABLE TO PDF -->
-	<script type="module" src="../js/exportPdf.js"></script>
+	<script type="module" src="../js/admin/exportPdf.js"></script>
 	<!-- DELETE A SESSION -->
-	<script type="module" src="../js/deleteSession.js"></script>
+	<script type="module" src="../js/admin/deleteSession.js"></script>
 	<!-- DOWNLOAD A SESSION -->
 	<!-- <script type="module" src="../js/downloadSession.js"></script> -->
 </body>

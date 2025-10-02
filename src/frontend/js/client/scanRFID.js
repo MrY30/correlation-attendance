@@ -1,4 +1,4 @@
-import { scanAttendance } from './api.js';
+import { scanAttendance } from '../api.js';
 import { openSignatureModal } from './signatureHandler.js';
 
 // one global timer so every new scan resets it

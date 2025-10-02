@@ -386,3 +386,13 @@ input[readonly] {
 #session-edit-btn {
   transition: opacity 120ms ease, transform 120ms ease;
 }
+
+.error-box {
+  color: var(--close-button-color);
+  margin-top: 10px;
+  font-weight: 400;
+}
+.input-error {
+  border-color: var(--close-button-color) !important;
+}
+

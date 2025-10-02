@@ -1,4 +1,4 @@
-import { saveSignature } from './api.js';
+import { saveSignature } from '../api.js';
 
 // Signature functionality
 class SignatureHandler {

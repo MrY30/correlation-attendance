@@ -1,5 +1,5 @@
 // sessionModal.js
-import { updateSession } from './api.js';
+import { updateSession } from '../api.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 //   console.log('[sessionModal] DOM ready — initializing');

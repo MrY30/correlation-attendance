@@ -1,5 +1,5 @@
 // src/frontend/js/sessionsCards.js
-import { fetchSessions } from './api.js';
+import { fetchSessions } from '../api.js';
 
 const grid = document.querySelector('.session-grid'); // instead of #sessions-container
 const mainSessionView = document.querySelector('.main-session');

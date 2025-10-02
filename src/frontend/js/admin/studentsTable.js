@@ -1,5 +1,5 @@
 // src/frontend/js/studentsTable.js
-import { fetchStudents } from './api.js';
+import { fetchStudents } from '../api.js';
 
 const tbody = document.querySelector('#students-table-body');
 const loadingEl = document.querySelector('#students-loading');

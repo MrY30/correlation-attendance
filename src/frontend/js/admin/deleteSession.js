@@ -1,5 +1,5 @@
 // deleteSession.js
-import { deleteSession } from './api.js';
+import { deleteSession } from '../api.js';
 
 /* ---------- Confirm dialog helper (create once) ---------- */
 function ensureConfirmDialog() {
