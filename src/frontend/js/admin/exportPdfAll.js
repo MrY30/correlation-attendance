@@ -154,9 +154,9 @@ async function generatePdfForSession(sessionId, type = 'weekly') {
             startY: y,
             columns,
             body,
-            styles: { fontSize: 10, cellPadding: 6, valign: 'middle', lineWidth: 0.5, lineColor: [0,0,0]},
+            styles: { fontSize: 10, cellPadding: 6, valign: 'middle' },
             headStyles: { fillColor: [40, 49, 59], textColor: [255,255,255] },
-            alternateRowStyles: { fillColor: [254,254,254] },
+            alternateRowStyles: { fillColor: [245, 245, 245] },
             didDrawCell: function (data) {
             // Draw signature images only if Present
             if (data.section === 'body' && data.column.dataKey === 'signature') {
@@ -204,152 +204,6 @@ async function generatePdfForSession(sessionId, type = 'weekly') {
     }
   
 }
-
-// Final Export Format
-async function generatePdfFinal(sessionId) {
-    const buttonId = 'final-export'
-    try{
-        setButtonLoading(buttonId, true);
-        const { session, logs } = await fetchAttendanceData(sessionId);
-
-        // Build table data
-        const body = (logs || []).map(r => {
-            let statusValAM = r.am_status ?? '';
-            let statusValPM = r.pm_status ?? '';
-
-            const signaturePath = r.signature;
-            const signatureUrl = signaturePath
-            ? `https://zulkfodbfdgocghnqxuq.supabase.co/storage/v1/object/public/${signaturePath}`
-            : null;
-
-            return {
-              student_id: r.student_id,
-              student_name: r.student_name,
-              section: r.section,
-              status_am: statusValAM,
-              status_pm: statusValPM,
-              signature_url: signatureUrl
-            };
-        });
-
-        async function tryLoadSignature(url) {
-            if (!url) return null; // skip if no signature path at all
-            try {
-            const resp = await fetch(url);
-            if (!resp.ok) return null; // avoid 404 spam
-            const blob = await resp.blob();
-            return await blobToDataURL(blob);
-            } catch {
-            return null;
-            }
-        }
-
-        // Preload images (leave null if not found)
-        const images = await Promise.all(body.map(r => tryLoadSignature(r.signature_url)));
-
-        // Create doc
-        const doc = new window.jspdf.jsPDF('p', 'pt', 'a4');
-        const marginLeft = 40;
-        let y = 40;
-
-        // Header
-        doc.setFont("times","normal");
-        doc.setFontSize(16);
-        doc.text(`${session.session_name} - Attendance Sheet`, marginLeft, y);
-        doc.setFontSize(11);
-        y += 18;
-        doc.text(`Session ID: ${session.session_id}`, marginLeft, y);
-
-        // Duration
-        y += 16;
-        const open = fmtLocal(new Date(`${session.publish_date}T${session.am_start}`));
-        const close = fmtLocal(new Date(`${session.publish_date}T${session.pm_end}`));
-        doc.text(`Duration: ${open} - ${close}`, marginLeft, y);
-        y += 10;
-
-        // Separator
-        doc.setLineWidth(0.5);
-        doc.line(marginLeft, y, doc.internal.pageSize.getWidth() - marginLeft, y);
-        y += 10;
-
-        // Columns
-        const columns = [
-            { header: 'Student ID', dataKey: 'student_id' },
-            { header: 'Student Name', dataKey: 'student_name' },
-            { header: 'Section', dataKey: 'section' },
-            { header: 'AM Session', dataKey: 'signature_am' },
-            { header: 'PM Session', dataKey: 'signature_pm' }
-        ];
-
-        // Render table
-        doc.autoTable({
-            startY: y,
-            columns,
-            body,
-            styles: { fontSize: 10, cellPadding: 6, valign: 'middle', lineWidth: 0.5, lineColor: [0,0,0]},
-            headStyles: { fillColor: [40, 49, 59], textColor: [255,255,255] },
-            alternateRowStyles: { fillColor: [254,254,254] },
-            didDrawCell: function (data) {
-              // Draw signature images only if Present
-              if (data.section === 'body') {
-                  const rowStatusAM = (body[data.row.index].status_am || '').toLowerCase();
-                  const rowStatusPM = (body[data.row.index].status_pm || '').toLowerCase();
-                  const imgData = images[data.row.index];
-
-                  // AM Session Signature
-                  if (data.column.dataKey === 'signature_am' && (rowStatusAM === 'present' || rowStatusAM === 'late') && imgData) {
-                    const maxW = Math.min(data.cell.width - 4, 70);
-                    const imgH = 20;
-                    const imgX = data.cell.x + 2;
-                    const imgY = data.cell.y + (data.cell.height - imgH) / 2;
-                    try {
-                        doc.addImage(imgData, 'PNG', imgX, imgY, maxW, imgH);
-                    } catch {}
-                  }
-
-                  //PM Session Signature
-                  if (data.column.dataKey === 'signature_pm' && (rowStatusPM === 'present' || rowStatusPM === 'late') && imgData) {
-                    const maxW = Math.min(data.cell.width - 4, 70);
-                    const imgH = 20;
-                    const imgX = data.cell.x + 2;
-                    const imgY = data.cell.y + (data.cell.height - imgH) / 2;
-                    try {
-                        doc.addImage(imgData, 'PNG', imgX, imgY, maxW, imgH);
-                    } catch {}
-                  }
-              }
-            },
-            didParseCell: function (data) {
-            if (data.section === 'body' && data.column.dataKey === 'status') {
-                const txt = (data.cell.raw || '').toString().toLowerCase();
-                if (txt === 'present') {
-                data.cell.styles.textColor = [56, 204, 121];
-                data.cell.styles.fontStyle = 'bold';
-                }
-                if (txt === 'absent') {
-                data.cell.styles.textColor = [240, 115, 97];
-                data.cell.styles.fontStyle = 'bold';
-                }
-                if (txt === 'late') {
-                data.cell.styles.textColor = [255, 165, 63];
-                data.cell.styles.fontStyle = 'bold';
-                }
-            }
-            },
-            margin: { left: marginLeft, right: marginLeft }
-        });
-
-        // Save
-        const filename = `${session.session_id}_Attendance Sheet_${formatFileDate(new Date())}.pdf`;
-        doc.save(filename);
-    }catch(error){
-        console.error('Error generating PDF:', error);
-    }finally{
-        setButtonLoading(buttonId, false);
-    }
-  
-}
-
 // END HERE
 async function generateExcelForSession(sessionId) {
   const { session, logs } = await fetchAttendanceData(sessionId);
@@ -419,9 +273,6 @@ document.getElementById('am-export').addEventListener('click', () => {
 });
 document.getElementById('pm-export').addEventListener('click', () => {
   if (activeDownloadSessionId) generatePdfForSession(activeDownloadSessionId, 'pm');
-});
-document.getElementById('final-export').addEventListener('click', () => {
-  if (activeDownloadSessionId) generatePdfFinal(activeDownloadSessionId);
 });
 document.getElementById('excel-export').addEventListener('click', () => {
   if (activeDownloadSessionId) generateExcelForSession(activeDownloadSessionId);
