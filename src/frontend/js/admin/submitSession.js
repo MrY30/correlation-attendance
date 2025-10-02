@@ -162,7 +162,7 @@ function validateTimes() {
     [inputs.pmStart, inputs.pmLate, inputs.pmEnd].forEach(i => i.classList.add('input-error'));
   }
 
-  // Logical ordering
+  // Logical ordering CONSIDERING TO CHANGE UPON REQUESTED [ALTERATION]
   if (!(weeklyEnd <= amStart)) {
     errors.push("Weekly time should end before AM session starts.");
     [inputs.weeklyEnd, inputs.amStart].forEach(i => i.classList.add('input-error'));
