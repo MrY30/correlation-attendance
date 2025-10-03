@@ -87,7 +87,7 @@
 }
 
 /* SIDE BAR */
-.main-register-button, .main-session-button{
+.main-register-button, .main-session-button, .main-summary-button{
     width: 100%;
     height: 10%;
     display: flex;
@@ -97,7 +97,7 @@
     gap: 0.3rem;
     cursor: pointer;
 }
-.main-register-button:hover, .main-session-button:hover{
+.main-register-button:hover, .main-session-button:hover, .main-summary-button:hover{
     background: var(--background-color);
 }
 .side-bar i{
