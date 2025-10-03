@@ -163,15 +163,15 @@ function validateTimes() {
   }
 
   // Logical ordering CONSIDERING TO CHANGE UPON REQUESTED [ALTERATION]
-  if (!(weeklyEnd <= amStart)) {
-    errors.push("Weekly time should end before AM session starts.");
-    [inputs.weeklyEnd, inputs.amStart].forEach(i => i.classList.add('input-error'));
-  }
+//   if (!(weeklyEnd <= amStart)) {
+//     errors.push("Weekly time should end before AM session starts.");
+//     [inputs.weeklyEnd, inputs.amStart].forEach(i => i.classList.add('input-error'));
+//   }
 
-  if (!(amEnd <= pmStart)) {
-    errors.push("AM session should end before PM session starts.");
-    [inputs.amEnd, inputs.pmStart].forEach(i => i.classList.add('input-error'));
-  }
+//   if (!(amEnd <= pmStart)) {
+//     errors.push("AM session should end before PM session starts.");
+//     [inputs.amEnd, inputs.pmStart].forEach(i => i.classList.add('input-error'));
+//   }
 
   return errors; // return array of error messages
 }
