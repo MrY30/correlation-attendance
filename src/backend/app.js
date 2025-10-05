@@ -31,6 +31,8 @@ app.get('/MCMAdmin', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/pages', 'adminPage.html'));
 });
 
+// BACKEND TESTING
+
 // API routes
 app.use('/api/students', studentsRouter);
 app.use('/api/sessions', sessionsRouter);
