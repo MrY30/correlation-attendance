@@ -198,6 +198,10 @@
     transition: transform 0.3s ease;
 }
 
+.student-info-popup{
+    width: 50%;
+}
+
 .popup-overlay:not(.hidden) .popup-modal{
     transform: scale(1);
 }
