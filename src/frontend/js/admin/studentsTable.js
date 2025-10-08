@@ -1,11 +1,35 @@
 // src/frontend/js/studentsTable.js
-import { fetchStudents } from '../api.js';
+import { fetchStudents, registerStudentRFID } from '../api.js';
 
 const tbody = document.querySelector('#students-table-body');
 const loadingEl = document.querySelector('#students-loading');
 const searchInput = document.querySelector('.search-input');
 
 let allStudents = []; // cache so we can search without backend
+
+function openModalWithStudent(student) {
+  const overlay = document.getElementById('popup-overlay-std-info');
+  const nameEl = document.querySelector('#student-info-name .student-info-info');
+  const idEl = document.querySelector('#student-info-school-id .student-info-info');
+  const sectionEl = document.querySelector('#student-info-section .student-info-info');
+  const rfidInput = document.querySelector('#student-info-rfid input.form-input');
+  const confirmBtn = document.getElementById('rfid-submit-btn');
+
+  // fill modal fields
+  nameEl.textContent = student.name ?? '';
+  idEl.textContent = student.school_id ?? '';
+  sectionEl.textContent = student.section ?? '';
+  rfidInput.value = ''; // clear previous
+
+  // store the student identifier on the confirm button so handler knows who
+  confirmBtn.dataset.studentId = student.id ?? student.school_id;
+
+  // show modal
+  overlay.classList.remove('hidden');
+
+  // focus the input for convenience
+  rfidInput.focus();
+}
 
 function renderRow(student) {
   const name = student.name ?? '';
@@ -14,13 +38,26 @@ function renderRow(student) {
 
   let status = 'UNREGISTERED';
   let statusClassName = 'status-not-registered';
-  if (student.rfid_code) {
+  if (student.rfid_code != schoolId) {
     status = 'REGISTERED';
     statusClassName = 'status-registered';
   }
 
   const row = document.createElement('div');
   row.className = 'table-row';
+
+  // store id + status for any later use
+  const studentId = student.id ?? student.school_id;
+  row.dataset.studentId = studentId;
+  row.dataset.status = student.rfid_code != schoolId ? 'registered' : 'unregistered';
+
+  // make row keyboard accessible only when unregistered
+  if (student.rfid_code === schoolId) {
+    row.tabIndex = 0;
+    row.style.cursor = 'pointer';
+  } else {
+    row.title = 'Already registered';
+  }
 
   const nameCell = document.createElement('div');
   nameCell.className = 'table-cell';
@@ -45,6 +82,23 @@ function renderRow(student) {
   row.appendChild(idCell);
   row.appendChild(sectionCell);
   row.appendChild(statusCell);
+
+  // Attach click + keyboard open handlers only for UNREGISTERED rows
+  if (student.rfid_code === schoolId) {
+    const openFn = (e) => {
+      // ignore clicks that originate from inside inner interactive elements (if any)
+      // but since our row has none besides registering button inside modal, it's safe
+      openModalWithStudent(student);
+    };
+    row.addEventListener('click', openFn);
+
+    row.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModalWithStudent(student);
+      }
+    });
+  }
 
   return row;
 }
@@ -105,3 +159,70 @@ searchInput.addEventListener('input', (e) => {
 });
 
 document.addEventListener('DOMContentLoaded', initTable);
+
+/* ---------- Modal: close + click-outside (you already had these) ---------- */
+const closeStdInfoBtn = document.getElementById('popup-close-std-info');
+const popupOverlayStdInfo = document.getElementById('popup-overlay-std-info');
+
+// Close modal (X)
+if (closeStdInfoBtn) {
+  closeStdInfoBtn.addEventListener('click', () => {
+    popupOverlayStdInfo.classList.add('hidden');
+  });
+}
+
+// Hide popup when clicking outside the modal content
+if (popupOverlayStdInfo) {
+  popupOverlayStdInfo.addEventListener('click', (e) => {
+    if (e.target === popupOverlayStdInfo) {
+      popupOverlayStdInfo.classList.add('hidden');
+    }
+  });
+}
+
+/* ---------- Confirm RFID button handler ---------- */
+const rfidSubmitBtn = document.getElementById('rfid-submit-btn');
+if (rfidSubmitBtn) {
+  rfidSubmitBtn.addEventListener('click', async (e) => {
+    const studentId = rfidSubmitBtn.dataset.studentId;
+    const rfidInput = document.querySelector('#student-info-rfid input.form-input');
+    if (!rfidInput) return;
+    const rfidValue = rfidInput.value.trim();
+    if (!rfidValue) {
+      // basic validation
+      alert('Please enter an RFID value.');
+      rfidInput.focus();
+      return;
+    }
+
+    try {
+      // ------------- replace this block with your real API call -------------
+      // Example:
+      // await fetch(`/api/students/${studentId}/register-rfid`, {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ rfid: rfidValue }),
+      // });
+      // ---------------------------------------------------------------------
+      await registerStudentRFID(studentId, rfidValue);
+
+      // update local cache so UI matches immediately
+      const idx = allStudents.findIndex(s => (s.id ?? s.school_id) == studentId);
+      if (idx !== -1) {
+        allStudents[idx].rfid_code = rfidValue;
+      }
+
+      // re-render (you can be smarter and update only that row instead)
+      renderTable(allStudents);
+
+      // close modal
+      popupOverlayStdInfo.classList.add('hidden');
+    } catch (err) {
+      if (err.message.includes('409')) {
+        alert('That RFID is already registered to another student.');
+      } else {
+        alert('Failed to register RFID. Please try again.');
+      }
+    }
+  });
+}

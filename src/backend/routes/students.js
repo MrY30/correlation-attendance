@@ -60,4 +60,44 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.put('/:studentId', async (req, res) => {
+  try {
+    const { studentId } = req.params;
+    const { rfid_code } = req.body;
+
+    if (!rfid_code) {
+      return res.status(400).json({ error: 'Missing RFID code' });
+    }
+
+    // ✅ STEP 1: Check if the RFID code already exists
+    const { count, error: dupError } = await supabaseAdmin
+      .from(student_profile)
+      .select('*', { count: 'exact', head: true }) // head:true means don't return data, just count
+      .eq('rfid_code', rfid_code);
+
+    if (dupError) throw dupError;
+
+    if (count > 0) {
+      // Conflict — RFID already registered
+      return res.status(409).json({ error: 'RFID already registered by another student' });
+    }
+
+    // ✅ STEP 2: Update the student record in Supabase
+    const { data, error } = await supabaseAdmin
+      .from(student_profile)
+      .update({ rfid_code })
+      .eq('school_id', studentId) // adjust if your identifier is 'id'
+      .select('name, school_id, section, rfid_code')
+      .single();
+
+    if (error) throw error;
+
+    // ✅ STEP 3: Send back the updated data
+    res.json({ data });
+  } catch (err) {
+    console.error('Failed to update student RFID:', err.message);
+    res.status(500).json({ error: 'Failed to update student RFID' });
+  }
+});
+
 export default router;

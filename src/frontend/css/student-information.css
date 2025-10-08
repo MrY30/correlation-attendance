@@ -1,0 +1,40 @@
+.popup-body-std-info{
+    padding: 2rem;
+}
+
+/* Student Information Content */
+#student-info-school-id,
+#student-info-section,
+#student-info-rfid {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--header-border);
+}
+
+#student-info-name{
+    display: flex;
+    flex-direction: column;
+    /* padding: 1rem 0; */
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--header-border);
+}
+
+#student-info-rfid {
+    border-bottom: none;
+    padding-top: 1.5rem;
+}
+
+.student-info-label {
+    font-weight: 300;
+    color: var(--font-color);
+    font-size: 0.875rem;
+    opacity: 0.6;
+    margin-bottom: 0.5rem;
+}
+
+.student-info-info {
+    color: var(--font-color);
+    font-size: 1.25rem;
+    font-weight: 500;
+}

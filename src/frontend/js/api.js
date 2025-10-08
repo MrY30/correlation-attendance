@@ -9,6 +9,25 @@ export async function fetchStudents() {
   return body.data || [];
 }
 
+export async function registerStudentRFID(studentId, rfidValue) {
+  const url = `/api/students/${studentId}`; // RESTful route with path param
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ rfid_code: rfidValue }),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to register RFID: ${res.status}`);
+  }
+
+  const body = await res.json();
+  return body.data; // backend will return updated student data
+}
+
+
 export async function addSession(session) {
   const res = await fetch('/api/sessions', {
     method: 'POST',

@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="../css/confirmModal.css">
 	<link rel="stylesheet" href="../css/download-button.css">
 	<link rel="stylesheet" href="../css/download-spinner.css">
+	<link rel="stylesheet" href="../css/student-information.css">
 	<link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 
 	<!-- FONTS -->
@@ -420,11 +421,27 @@
 				<div class="popup-overlay hidden" id="popup-overlay-std-info">
 					<div class="popup-modal student-info-popup">
 						<div class="popup-header">
-							<h2>Student Information</h2>
+							<h2>RFID Registration</h2>
 							<i class='bx bx-x popup-close' id="popup-close-std-info"></i>
 						</div>
-						<div class="popup-body">
-							Hie
+						<div class="popup-body-std-info">
+							<div id="student-info-name">
+								<div class="student-info-label">Name:</div>
+								<div class="student-info-info">John Doe</div>
+							</div>
+							<div id="student-info-school-id">
+								<div class="student-info-label">School ID:</div>
+								<div class="student-info-info">2020112456</div>
+							</div>
+							<div id="student-info-section">
+								<div class="student-info-label">Section:</div>
+								<div class="student-info-info">A123</div>
+							</div>
+							<div id="student-info-rfid">
+								<div class="student-info-label">Register RFID:</div>
+								<input type="text" name="" id="" class="form-input">
+							</div>
+							<button type="submit" class="btn-add" id="rfid-submit-btn">Confirm RFID</button>
 						</div>
 					</div>
 				</div>
