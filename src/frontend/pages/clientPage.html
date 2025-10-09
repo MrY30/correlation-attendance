@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="../css/main-session.css">
 	<link rel="stylesheet" href="../css/attendance-reader.css">
 	<link rel="stylesheet" href="../css/signature-handler.css">
+	<!-- <link rel="stylesheet" href="../css/student-information.css"> -->
 	<link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 
 	<!-- FONTS -->
@@ -57,8 +58,10 @@
 							</div>
 						</div>
 					</div>
+					<button class="click-button" id="click-button">
+						<span>Not Registered? Click Here!</span>
+					</button>
 					<button class="back-button">
-						<i class='bx bx-arrow-back'></i>
 						<span>Back to Sessions</span>
 					</button>
 				</div>
@@ -133,6 +136,26 @@
 
 					</div>
 				</div>
+
+				<!-- Popup Modal for Attendance for Unregistered Student -->
+				<div class="popup-overlay hidden" id="popup-overlay-attendance">
+					<div class="popup-modal student-info-popup">
+						<div class="popup-header">
+							<h2>School ID Attendance</h2>
+							<i class='bx bx-x popup-close' id="popup-close-attendance"></i>
+						</div>
+						<div class="popup-body">
+							<div id="attendance-name">
+								<div class="attendance-label">Enter School ID:</div>
+								<div class="attendance-container">
+									<input type="text" id="attendance-input" class="form-input">
+									<button type="submit" class="btn-add" id="attendance-btn">Submit Attendance</button>
+								</div>
+								<div id="attendance-error" class="attendance-error" style="display:none;">Please enter an ID</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
         </div>
 	</section>
@@ -181,8 +204,10 @@
 
 	<script type="text/javascript" src="../js/client/toggleClient.js"></script>
 	<script type="module" src="../js/client/clientCards.js"></script>
-	<script type="module" src="../js/client/scanRFID.js"></script>
+	<!-- TESTING MANUAL INPUT -->
+	<script type="module" src="../js/client/scanRFIDTrial.js"></script>
 	<!-- Also add this script tag before the closing </body> tag -->
 	<script type="module" src="../js/client/signatureHandler.js"></script>
+	<script type="module" src="../js/client/manualAttendance.js"></script>
 </body>
 </html>

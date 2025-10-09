@@ -56,6 +56,28 @@
     transform: translateY(-2px);
 }
 
+.click-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.8rem;
+    background: var(--header-color);
+    color: var(--font-dark);
+    border: 2px solid var(--card-color);
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-right: 1rem;
+}
+
+.click-button:hover{
+    background: var(--card-color);
+    color: var(--font-color-dark);
+    transform: translateY(-2px);
+}
+
 .session-information {
     text-align: left;
     flex: 1;
@@ -70,7 +92,7 @@
 
 .session-details {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     gap: 2rem;
     font-size: 0.9rem;
     opacity: 0.8;
@@ -301,6 +323,7 @@
     
     .session-details {
         flex-direction: column;
+        align-items: center;
         gap: 0.5rem;
     }
     
@@ -319,4 +342,21 @@
 .rfid-section:focus-within {
     outline: 2px solid var(--card-color);
     outline-offset: 2px;
+}
+
+.attendance-label{
+    font-weight: 300;
+    color: var(--font-color);
+    font-size: 0.875rem;
+    opacity: 0.6;
+    margin-bottom: 0.5rem;
+}
+
+.attendance-container{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.attendance-container .form-input{
+    flex: 1;
 }
