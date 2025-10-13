@@ -18,6 +18,8 @@
 	<link rel="stylesheet" href="../css/download-button.css">
 	<link rel="stylesheet" href="../css/download-spinner.css">
 	<link rel="stylesheet" href="../css/student-information.css">
+	<link rel="stylesheet" href="../css/main-summary.css">
+	<link rel="stylesheet" href="../css/drop-down.css">
 	<link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 
 	<!-- FONTS -->
@@ -447,8 +449,136 @@
 				</div>
 
 			</div>
-			<div class="main-summary">
-
+			<div class="main-summary hidden">
+				<div class="summary-header">
+					<h1>Summary Table</h1>
+					<div>Match the Session IDs with its Week Number</div>
+				</div>
+				<div class="summary-content">
+					<div class="main-table-area">
+						<div class="main-table">
+							<div class="table-header-summary">
+								<div class="table-cell-summary header-cell">Week Number</div>
+								<div class="table-cell-summary header-cell">Session ID</div>
+							</div>
+							<div class="table-body-summary" id="summary-table-body">
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 1</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week1" class="session-select" data-week="1">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 2</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week2" class="session-select" data-week="2">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 3</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week3" class="session-select" data-week="3">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 4</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week4" class="session-select" data-week="4">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 5</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week5" class="session-select" data-week="5">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 6</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week6" class="session-select" data-week="6">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 7</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week7" class="session-select" data-week="7">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 8</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week8" class="session-select" data-week="8">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 9</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week9" class="session-select" data-week="9">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 10</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week10" class="session-select" data-week="10">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 11</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week11" class="session-select" data-week="11">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 12</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week12" class="session-select" data-week="12">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 13</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week13" class="session-select" data-week="13">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+								<div class="table-row-summary">
+									<div class="table-cell-summary content-cell">Week 14</div>
+									<div class="table-cell-summary content-cell drop-down">
+										<select name="session-week14" class="session-select" data-week="14">
+											<option value="">Select Session</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<button type="submit" class="btn-add" id="summary-export">Export Summary</button>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -474,6 +604,7 @@
 	<script type="module" src="../js/admin/deleteSession.js"></script>
 	<!-- MODAL FOR STUDENT INFORMATION -->
 	<script type="module" src="../js/admin/studentInfor.js"></script>
+	<script type="module" src="../js/admin/listSession.js"></script>
 	<!-- DOWNLOAD A SESSION -->
 	<!-- <script type="module" src="../js/downloadSession.js"></script> -->
 </body>

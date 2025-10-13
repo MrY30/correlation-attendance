@@ -1,0 +1,72 @@
+/* Header Section of main-summary */
+.summary-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--header-color);
+    border-radius: 1rem;
+    padding: 1.5rem 2rem;
+    margin: 2rem;
+    margin-bottom: 0;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+
+.summary-header>h1{
+    color: var(--card-color);
+}
+
+.summary-header>div {
+    font-size: 1rem;
+    color: var(--font-dark);
+    font-weight: 300;
+    opacity: 0.6;
+}
+
+/* For Table Summary */
+.table-header-summary{
+    background: var(--card-color);
+    padding: 1.5rem 2rem;
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    gap: 1rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--font-color-dark);
+}
+
+.table-body-summary{
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
+.table-row-summary{
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    gap: 1rem;
+    padding: 1.2rem 2rem;
+    border-bottom: 1px solid var(--header-border);
+    transition: background 0.2s ease;
+}
+
+.table-row-summary:last-child{
+    border-bottom: none;
+}
+
+.table-cell-summary{
+    display: flex;
+    align-items: center;
+}
+
+.header-cell{
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.content-cell{
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+#summary-export{
+    margin-left: 2rem;
+}

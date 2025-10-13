@@ -1,0 +1,82 @@
+/* Dropdown Container */
+.drop-down {
+    position: relative;
+    width: 100%;
+}
+
+/* Dropdown Select */
+.drop-down select {
+    width: 100%;
+    padding: 0.8rem 2.5rem 0.8rem 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--font-color);
+    background-color: var(--background-color);
+    border: 2px solid var(--header-border);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    appearance: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+/* Dropdown Select Hover */
+.drop-down select:hover {
+    border-color: var(--card-color);
+    background-color: var(--header-color);
+}
+
+/* Dropdown Select Focus */
+.drop-down select:focus {
+    outline: none;
+    border-color: var(--card-color);
+    box-shadow: 0 0 0 3px rgba(56, 204, 121, 0.1);
+}
+
+/* Custom Dropdown Arrow */
+.drop-down::after {
+    content: '▼';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--card-color);
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+/* Arrow Rotation on Focus (requires JS, optional) */
+.drop-down select:focus + .drop-down::after,
+.drop-down:focus-within::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Dropdown Option Styling */
+.drop-down select option {
+    padding: 0.8rem;
+    background-color: var(--header-color);
+    color: var(--font-color);
+}
+
+/* Selected Option Highlight */
+.drop-down select option:checked {
+    background-color: var(--card-color);
+    color: var(--font-color-dark);
+}
+
+/* Disabled State */
+.drop-down select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: var(--icon-hover);
+}
+
+/* Dark Theme Adjustments */
+body.dark-theme .drop-down select {
+    background-color: var(--header-color);
+}
+
+body.dark-theme .drop-down select:hover {
+    background-color: var(--icon-hover);
+}

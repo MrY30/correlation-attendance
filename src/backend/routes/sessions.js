@@ -3,10 +3,8 @@ import { supabaseAdmin } from '../lib/supabaseClient.js';
 
 const router = Router();
 
-// const sessions = 'deployed_sessions';
 const sessions = 'sessions_v2';
 const student_profile = 'deployed_student_profile';
-// const attendance_logs = 'deployed_attendance_logs';
 const attendance_logs = 'attendance_logs_v2';
 
 router.post('/', async (req, res) => {
