@@ -565,6 +565,71 @@ async function generatePdfFinal(sessionId) {
 
 
 // END HERE
+// async function generateExcelForSession(sessionId) {
+
+//   if(!validateInput()){
+//     alert('The instructors are incomplete');
+//     return;
+//   }
+
+//   const { session, logs } = await fetchAttendanceData(sessionId);
+
+//   // Create workbook and worksheet
+//   const workbook = new ExcelJS.Workbook();
+//   const worksheet = workbook.addWorksheet(`${session.session_name}`);
+
+//   // Define header row
+//   worksheet.columns = [
+//     { header: 'Student ID', key: 'student_id', width: 15 },
+//     { header: 'Student Name', key: 'student_name', width: 25 },
+//     { header: 'Exam Status', key: 'exam_status', width: 15 },
+//     { header: 'AM Status', key: 'am_status', width: 15 },
+//     { header: 'PM Status', key: 'pm_status', width: 15 },
+//   ];
+
+//   // Add rows
+//   logs.forEach(r => {
+//     worksheet.addRow({
+//       student_id: r.student_id,
+//       student_name: r.student_name,
+//       exam_status: r.exam_status ?? '',
+//       am_status: r.am_status ?? '',
+//       pm_status: r.pm_status ?? '',
+//     });
+//   });
+
+//   // Style header row
+//   worksheet.getRow(1).eachCell(cell => {
+//     cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+//     cell.fill = {
+//       type: 'pattern',
+//       pattern: 'solid',
+//       fgColor: { argb: 'FF28313B' } // dark gray like your PDF header
+//     };
+//     cell.alignment = { vertical: 'middle', horizontal: 'center' };
+//   });
+
+//   // Apply conditional formatting (simple manual approach)
+//   worksheet.eachRow((row, rowNumber) => {
+//     if (rowNumber === 1) return; // skip header
+//     ['C','D','E'].forEach(col => { // exam_status, am_status, pm_status
+//       const cell = row.getCell(col);
+//       const val = (cell.value || '').toString().toLowerCase();
+//       if (val === 'absent') {
+//         cell.font = { color: { argb: 'FFF07361' }, bold: true }; // red
+//       } else if (val === 'present') {
+//         cell.font = { color: { argb: 'FF38CC79' }, bold: true }; // green
+//       }
+//     });
+//   });
+
+//   // Export file
+//   const buffer = await workbook.xlsx.writeBuffer();
+//   const filename = `${session.session_id}_Attendance.xlsx`;
+//   saveAs(new Blob([buffer]), filename);
+// }
+
+// CHANGED THE VALUES FROM TEXT TO NUMBER
 async function generateExcelForSession(sessionId) {
 
   if(!validateInput()){
@@ -587,14 +652,22 @@ async function generateExcelForSession(sessionId) {
     { header: 'PM Status', key: 'pm_status', width: 15 },
   ];
 
-  // Add rows
+  // Helper function to convert status text to number
+  function mapStatus(status) {
+    const val = (status || '').toLowerCase();
+    if (val === 'absent') return 0;
+    if (val === 'late') return 0.5;
+    if (val === 'present') return 1;
+    return ''; // keep empty if no status
+  }
+
   logs.forEach(r => {
     worksheet.addRow({
       student_id: r.student_id,
       student_name: r.student_name,
-      exam_status: r.exam_status ?? '',
-      am_status: r.am_status ?? '',
-      pm_status: r.pm_status ?? '',
+      exam_status: mapStatus(r.exam_status),
+      am_status: mapStatus(r.am_status),
+      pm_status: mapStatus(r.pm_status),
     });
   });
 
@@ -611,17 +684,20 @@ async function generateExcelForSession(sessionId) {
 
   // Apply conditional formatting (simple manual approach)
   worksheet.eachRow((row, rowNumber) => {
-    if (rowNumber === 1) return; // skip header
-    ['C','D','E'].forEach(col => { // exam_status, am_status, pm_status
+    if (rowNumber === 1) return;
+    ['C','D','E'].forEach(col => {
       const cell = row.getCell(col);
-      const val = (cell.value || '').toString().toLowerCase();
-      if (val === 'absent') {
-        cell.font = { color: { argb: 'FFF07361' }, bold: true }; // red
-      } else if (val === 'present') {
-        cell.font = { color: { argb: 'FF38CC79' }, bold: true }; // green
+      const val = cell.value;
+      if (val === 0) {
+        cell.font = { color: { argb: 'FFF07361' }, bold: true }; // red for absent
+      } else if (val === 0.5) {
+        cell.font = { color: { argb: 'FFF7B32B' }, bold: true }; // yellowish for late
+      } else if (val === 1) {
+        cell.font = { color: { argb: 'FF38CC79' }, bold: true }; // green for present
       }
     });
   });
+
 
   // Export file
   const buffer = await workbook.xlsx.writeBuffer();
