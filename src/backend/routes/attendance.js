@@ -145,4 +145,60 @@ router.post('/scan', async (req, res) => {
   }
 });
 
+// PUT /api/attendance/sync-sections
+// PUT /api/attendance/sync-sections
+// router.put('/sync-sections', async (req, res) => {
+//   try {
+//     console.log('🟢 Starting section sync...');
+
+//     // Step 1: Fetch all students that have a section
+//     const { data: students, error: studentsError } = await supabaseAdmin
+//       .from(student_profile)
+//       .select('school_id, section')
+//       .not('section', 'is', null);
+
+//     if (studentsError) {
+//       console.error('❌ Error fetching students:', studentsError.message);
+//       return res.status(500).json({ error: 'Failed to fetch students' });
+//     }
+
+//     if (!students || students.length === 0) {
+//       console.warn('⚠️ No students found with sections.');
+//       return res.status(404).json({ message: 'No students found with sections' });
+//     }
+
+//     let totalUpdated = 0;
+
+//     // Step 2: Loop through each student
+//     for (const student of students) {
+//       const { school_id, section } = student;
+
+//       // Skip empty sections
+//       if (!section) continue;
+
+//       // Update all attendance logs for this student that still have null section
+//       const { error: updateError, count } = await supabaseAdmin
+//         .from(attendance_logs)
+//         .update({ section })
+//         .eq('student_id', school_id)
+//         .is('section', null)
+//         .select('*', { count: 'exact' });
+
+//       if (updateError) {
+//         console.error(`❌ Failed updating ${school_id}:`, updateError.message);
+//       } else if (count > 0) {
+//         totalUpdated += count;
+//         console.log(`✅ Updated ${count} logs for student ${school_id}`);
+//       }
+//     }
+
+//     console.log(`✅ Done! Total updated: ${totalUpdated}`);
+//     return res.json({ message: 'Section sync complete', totalUpdated });
+
+//   } catch (err) {
+//     console.error('🔥 Sync sections error:', err);
+//     return res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
 export default router;
